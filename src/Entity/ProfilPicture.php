@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
@@ -9,33 +10,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProfilPictureRepository::class)]
 class ProfilPicture extends Media
 {
-    #[ORM\ManyToOne(inversedBy: 'profilPictures')]
-    private ?User $user = null;
+  #[ORM\ManyToOne(inversedBy: 'profilPictures')]
+  private ?User $user = null;
 
-    // #[ORM\Column(type: Types::STRING)]
-    // private string $alt;
+  public function __construct()
+  {
+    parent::__construct();
+  }
 
-    // public function getAlt(): ?string
-    // {
-    //     return $this->alt;
-    // }
+  public function getUser(): ?User
+  {
+    return $this->user;
+  }
 
-    // public function setAlt(string $alt): static
-    // {
-    //     $this->alt = $alt;
+  public function setUser(?User $user): static
+  {
+    $this->user = $user;
 
-    //     return $this;
-    // }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
+    return $this;
+  }
 }

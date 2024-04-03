@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
 
-// use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
@@ -40,7 +40,11 @@ abstract class Media
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
   protected \DateTimeImmutable $updatedAt;
 
-  // ... getters et setters
+  public function __construct()
+  {
+    $this->createdAt = new \DateTimeImmutable();
+    $this->updatedAt = $this->createdAt;
+  }
   public function getId(): ?int
   {
     return $this->id;
@@ -129,6 +133,4 @@ abstract class Media
 
     return $this;
   }
-
-
 }

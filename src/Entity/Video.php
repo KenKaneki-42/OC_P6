@@ -12,6 +12,11 @@ class Video extends Media
     #[ORM\ManyToOne(inversedBy: 'videos')]
     private ?Trick $trick = null;
 
+    public function __construct()
+  {
+    parent::__construct();
+  }
+
     public function getTrick(): ?Trick
     {
         return $this->trick;
