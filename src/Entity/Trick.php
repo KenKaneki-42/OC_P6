@@ -55,6 +55,8 @@ class Trick
     $this->comments = new ArrayCollection();
     $this->images = new ArrayCollection();
     $this->videos = new ArrayCollection();
+    $this->createdAt = new \DateTimeImmutable();
+    $this->updatedAt = $this->createdAt;
   }
 
   public function getId(): ?int
