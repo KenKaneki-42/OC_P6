@@ -37,4 +37,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+    public function findRandomUser() {
+      $users = $this->findAll();
+
+      if (count($users) === 0) {
+          return null;
+      }
+
+      $randomUser = $users[array_rand($users)];
+
+      return $randomUser;
+  }
+    public function findRandomUserDifferentFromAuthor(User $author): ?User
+    {
+        $users = $this->findAll();
+
+        // Filter the array to exclude the author
+        $otherUsers = array_filter($users, function($user) use ($author) {
+            return $user->getId() !== $author->getId();
+        });
+
+        if (count($otherUsers) === 0) {
+            // Return null if no other users are found
+            return null;
+        }
+
+        // Re-index the keys of the array after filtering
+        $otherUsers = array_values($otherUsers);
+
+        // Select a random user from the other users
+        $randomUser = $otherUsers[array_rand($otherUsers)];
+
+        return $randomUser;
+    }
+
 }
