@@ -55,7 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   private ?string $lastname = null;
 
   #[ORM\Column(length: 255, unique: true)]
-  #[Assert\NotBlank]
   private ?string $token = null;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
