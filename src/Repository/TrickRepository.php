@@ -16,8 +16,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Trick::class);
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Trick::class);
+  }
+
+  public function findRandomTrick(): ?Trick
+  {
+    $tricks = $this->findAll();
+
+    if (count($tricks) === 0) {
+      return null;
     }
+
+    $randomTrick = $tricks[array_rand($tricks)];
+
+    return $randomTrick;
+  }
 }
