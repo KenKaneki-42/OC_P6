@@ -1,0 +1,62 @@
+[
+  {
+    "email": "jane.doe@example.com",
+    "password": "SecurePassword1",
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  {
+    "email": "john.smith@example.com",
+    "password": "SecurePassword2",
+    "firstName": "John",
+    "lastName": "Smith"
+  },
+  {
+    "email": "alice.johnson@example.com",
+    "password": "SecurePassword3",
+    "firstName": "Alice",
+    "lastName": "Johnson"
+  },
+  {
+    "email": "michael.brown@example.com",
+    "password": "SecurePassword4",
+    "firstName": "Michael",
+    "lastName": "Brown"
+  },
+  {
+    "email": "emily.wilson@example.com",
+    "password": "SecurePassword5",
+    "firstName": "Emily",
+    "lastName": "Wilson"
+  },
+  {
+    "email": "david.miller@example.com",
+    "password": "SecurePassword6",
+    "firstName": "David",
+    "lastName": "Miller"
+  },
+  {
+    "email": "sophia.davis@example.com",
+    "password": "SecurePassword7",
+    "firstName": "Sophia",
+    "lastName": "Davis"
+  },
+  {
+    "email": "james.taylor@example.com",
+    "password": "SecurePassword8",
+    "firstName": "James",
+    "lastName": "Taylor"
+  },
+  {
+    "email": "isabella.moore@example.com",
+    "password": "SecurePassword9",
+    "firstName": "Isabella",
+    "lastName": "Moore"
+  },
+  {
+    "email": "alexander.white@example.com",
+    "password": "SecurePassword10",
+    "firstName": "Alexander",
+    "lastName": "White"
+  }
+]

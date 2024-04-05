@@ -1,0 +1,50 @@
+[
+  {
+    "name": "basic"
+  },
+  {
+    "name": "grabs"
+  },
+  {
+    "name": "rotations"
+  },
+  {
+    "name": "flips"
+  },
+  {
+    "name": "spins"
+  },
+  {
+    "name": "slides"
+  },
+  {
+    "name": "jumps"
+  },
+  {
+    "name": "rails"
+  },
+  {
+    "name": "halfpipe"
+  },
+  {
+    "name": "jibbing"
+  },
+  {
+    "name": "flatland"
+  },
+  {
+    "name": "freestyle"
+  },
+  {
+    "name": "advanced Rotations"
+  },
+  {
+    "name": "freeride"
+  },
+  {
+    "name": "splitboarding"
+  },
+  {
+    "name": "carving"
+  }
+]
