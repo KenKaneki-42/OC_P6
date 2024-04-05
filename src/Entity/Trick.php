@@ -18,15 +18,11 @@ class Trick
   #[ORM\Column]
   private ?int $id = null;
 
-  #[ORM\Column(length: 255)]
+  #[ORM\Column(length: 255, unique: true)]
   private ?string $name = null;
 
   #[ORM\Column(length: 255)]
   private ?string $description = null;
-
-  //typer en JSON? array? rien du tout?
-  #[ORM\Column(type: Types::JSON, nullable: true)]
-  private array $category = [];
 
   #[ORM\Column]
   private ?\DateTimeImmutable $createdAt = null;
@@ -34,7 +30,7 @@ class Trick
   #[ORM\Column]
   private ?\DateTimeImmutable $updatedAt = null;
 
-  #[ORM\Column(length: 255)]
+  #[ORM\Column(length: 255, unique: true)]
   private ?string $slug = null;
 
   #[ORM\ManyToOne(inversedBy: 'tricks')]
@@ -49,6 +45,10 @@ class Trick
 
   #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'trick')]
   private Collection $videos;
+
+  #[ORM\ManyToOne(inversedBy: 'name')]
+  #[ORM\JoinColumn(nullable: false)]
+  private ?TrickCategory $trickCategory = null;
 
   public function __construct()
   {
@@ -84,18 +84,6 @@ class Trick
   public function setDescription(string $description): static
   {
     $this->description = $description;
-
-    return $this;
-  }
-
-  public function getCategory(): array
-  {
-    return $this->category;
-  }
-
-  public function setCategory(array $category): static
-  {
-    $this->category = $category;
 
     return $this;
   }
@@ -234,6 +222,18 @@ class Trick
         $video->setTrick(null);
       }
     }
+
+    return $this;
+  }
+
+  public function getTrickCategory(): ?TrickCategory
+  {
+    return $this->trickCategory;
+  }
+
+  public function setTrickCategory(?TrickCategory $trickCategory): static
+  {
+    $this->trickCategory = $trickCategory;
 
     return $this;
   }
