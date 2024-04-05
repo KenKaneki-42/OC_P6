@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Ollie",
+    "description": "An impressive trick involving a basic jump.",
+    "category": "Basic",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Nollie",
+    "description": "An impressive trick involving the nose of the board is used to launch.",
+    "category": "Basic",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Grabs",
+    "description": "An impressive trick involving grabbing the board in mid-air.",
+    "category": "Grabs",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "180",
+    "description": "An impressive trick involving a half-turn rotation in the air.",
+    "category": "Rotations",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "360",
+    "description": "An impressive trick involving a full rotation in the air.",
+    "category": "Rotations",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "540",
+    "description": "An impressive trick involving one and a half rotations in the air.",
+    "category": "Rotations",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "720",
+    "description": "An impressive trick involving two full rotations in the air.",
+    "category": "Rotations",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Backflip",
+    "description": "An impressive trick involving a backward flip.",
+    "category": "Flips",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Frontflip",
+    "description": "An impressive trick involving a forward flip.",
+    "category": "Flips",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Corkscrew",
+    "description": "An impressive trick involving a diagonal flip.",
+    "category": "Flips",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Rail Slide",
+    "description": "An amazing trick involving sliding along a rail.",
+    "category": "Jibbing",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Box Slide",
+    "description": "An unbelievable trick involving sliding across a box.",
+    "category": "Jibbing",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Tail Press",
+    "description": "An impressive trick involving pressing the tail of the board down while sliding.",
+    "category": "Jibbing",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Nose Press",
+    "description": "An amazing trick involving pressing the nose of the board down while sliding.",
+    "category": "Jibbing",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Butter",
+    "description": "An unbelievable trick involving a flat ground trick involving a pivot.",
+    "category": "Flatland",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Nose Roll",
+    "description": "An impressive trick involving rolling the board around the nose.",
+    "category": "Flatland",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Tail Roll",
+    "description": "An amazing trick involving rolling the board around the tail.",
+    "category": "Flatland",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Method Air",
+    "description": "An unbelievable trick involving a classic air grab.",
+    "category": "Grabs",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "Indy Air",
+    "description": "A super trick involving grabbing the board between the bindings with the back hand.",
+    "category": "Grabs",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  },
+  {
+    "name": "McTwist",
+    "description": "A great trick involving a flipped frontside 540.",
+    "category": "Advanced Rotations",
+    "image1": "https://images.unsplash.com/photo-1522445263200-1b4b91053db8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image2": "https://images.unsplash.com/photo-1576837839711-7db60e14a18f?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "videoTutorial": "https://www.youtube.com/watch?v=AnI7qGQs0Ic&ab_channel=SnowboardAddiction"
+  }
+]
