@@ -42,7 +42,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   #[ORM\Column(type: Types::STRING, length: 255)]
   #[Assert\NotBlank]
-  #[Assert\PasswordStrength(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long', requireLetters: true, requireNumbers: true, requireCaseDiff: true, requireSpecialCharacter: true)]
+  #[Assert\Length(min: 8)]
+  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.")]
   private ?string $password = null;
 
   #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user', orphanRemoval: true)]
