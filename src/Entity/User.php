@@ -10,12 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
   #[ORM\Id]
@@ -67,14 +69,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
   private ?bool $isEnabled = null;
 
-  #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
-  private ?bool $isValidated = null;
-
   #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
   private Collection $comments;
 
   #[ORM\OneToMany(targetEntity: ProfilPicture::class, mappedBy: 'user')]
   private Collection $profilPictures;
+
+  #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+  private bool $isVerified = false;
 
   public function __construct()
   {
@@ -83,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     $this->profilPictures = new ArrayCollection();
     $this->createdAt = new \DateTimeImmutable();
     $this->updatedAt = $this->createdAt;
-    $this->isValidated = false;
+    $this->isVerified = false;
     $this->isEnabled = true;
   }
 
@@ -264,18 +266,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this;
   }
 
-  public function getIsValidated(): ?bool
-  {
-    return $this->isValidated;
-  }
-
-  public function setIsValidated(bool $isValidated): static
-  {
-    $this->isValidated = $isValidated;
-
-    return $this;
-  }
-
   /**
    * @return Collection<int, Comment>
    */
@@ -334,5 +324,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     return $this;
+  }
+
+  public function isVerified(): bool
+  {
+      return $this->isVerified;
+  }
+
+  public function setIsVerified(bool $isVerified): static
+  {
+      $this->isVerified = $isVerified;
+
+      return $this;
   }
 }
