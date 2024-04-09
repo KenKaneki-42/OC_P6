@@ -41,10 +41,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    * @var string The hashed password
    */
   #[ORM\Column(type: Types::STRING, length: 255)]
-  #[Assert\NotBlank]
+  #[Assert\NotBlank(groups: ['password'])]
   #[Assert\Length(min: 8)]
-  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.")]
+  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.", groups: ['password'])]
   private ?string $password = null;
+
+  private ?string $plainPassword = null;
 
   #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user', orphanRemoval: true)]
   private Collection $tricks;
@@ -88,6 +90,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     $this->updatedAt = $this->createdAt;
     $this->isVerified = false;
     $this->isEnabled = true;
+    $this->roles = ['ROLE_USER'];
+    $this->token = bin2hex(random_bytes(32));
   }
 
   public function getId(): ?int
@@ -162,7 +166,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   public function eraseCredentials(): void
   {
     // If you store any temporary, sensitive data on the user, clear it here
-    // $this->plainPassword = null;
+    $this->plainPassword = null;
+  }
+
+  public function getPlainPassword(): ?string
+  {
+    return $this->plainPassword;
+  }
+
+  public function setPlainPassword(string $plainPassword): static
+  {
+    $this->plainPassword = $plainPassword;
+
+    return $this;
   }
 
   /**
