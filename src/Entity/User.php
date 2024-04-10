@@ -59,7 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[Assert\NotBlank]
   private ?string $lastname = null;
 
-  #[ORM\Column(length: 255, unique: true)]
+  #[ORM\Column(length: 255, unique: true, nullable: true)]
   private ?string $token = null;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
@@ -240,7 +240,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this->token;
   }
 
-  public function setToken(string $token): static
+  public function setToken(?string $token): static
   {
     $this->token = $token;
 
