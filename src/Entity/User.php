@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(length: 255, unique: true, nullable: true)]
   private ?string $token = null;
 
+  #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+  private ?string $resetToken = null;
+
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
   #[Assert\NotBlank(message: 'creation date cannot be null')]
   private ?\DateTimeImmutable $createdAt = null;
@@ -243,6 +246,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   public function setToken(?string $token): static
   {
     $this->token = $token;
+
+    return $this;
+  }
+
+  public function getResetToken(): ?string
+  {
+    return $this->resetToken;
+  }
+
+  public function setResetToken(?string $resetToken): static
+  {
+    $this->resetToken = $resetToken;
 
     return $this;
   }
