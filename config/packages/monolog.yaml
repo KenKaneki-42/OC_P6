@@ -59,4 +59,5 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+                level: error
                 formatter: monolog.formatter.json
