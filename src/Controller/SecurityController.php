@@ -84,32 +84,31 @@ class SecurityController extends AbstractController
     UserRepository $userRepository,
     EntityManagerInterface $entityManager,
     UserPasswordHasherInterface $passwordHasher,
-    ): Response
-  {
+  ): Response {
     // check if the token is valid
     $user = $userRepository->findOneByResetToken($token);
+    if (!$user) {
+      $this->addFlash('danger', 'Invalid token.');
+      return $this->redirectToRoute('app_login');
+    }
 
-    if ($user){
-      $form =$this->createForm(ResetPasswordFormType::class);
+    $form = $this->createForm(ResetPasswordFormType::class);
+    $form->handleRequest($request);
 
-      $form->handleRequest($request);
-
-      if($form->isSubmitted() && $form->isValid()){
-        $user->setResetToken(null);
-        $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Password updated successfully');
-        return $this->redirectToRoute('app_login');
-      }
-
+    if (!$form->isSubmitted() || !$form->isValid()) {
+      // display the form
       return $this->render('security/reset_password.html.twig', [
         'passForm' => $form->createView(),
       ]);
     }
 
-    $this->addFlash('danger', 'invalid Token');
-      return $this->redirectToRoute('app_login');
+    // update the password
+    $user->setResetToken(null);
+    $user->setPassword($passwordHasher->hashPassword($user, $form->get('password')->getData()));
+    $entityManager->persist($user);
+    $entityManager->flush();
+
+    $this->addFlash('success', 'Password updated successfully.');
+    return $this->redirectToRoute('app_login');
   }
 }
