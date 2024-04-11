@@ -32,13 +32,6 @@ class SecurityController extends AbstractController
       'error' => $error,
     ]);
   }
-
-  #[Route(path: '/logout', name: 'app_logout')]
-  public function logout(): void
-  {
-    throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-  }
-
   #[Route(path: '/forgotten-password', name: 'app_forgotten_password')]
   public function forgottenPassword(
     Request $request,
@@ -47,43 +40,41 @@ class SecurityController extends AbstractController
     EntityManagerInterface $entityManager,
     SendMailService $mail,
   ): Response {
-    $form = $this->createForm((ResetPasswordRequestFormType::class));
-
+    $form = $this->createForm(ResetPasswordRequestFormType::class);
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $user = $userRepository->findOneByEmail($form->get('email')->getData());
-      if ($user) {
-        // generate a reset token
-        $token = $tokenGenerator->generateToken();
-        $user->setResetToken($token);
-        $entityManager->persist($user);
-        $entityManager->flush();
+    if (!$form->isSubmitted() || !$form->isValid()) {
+      return $this->render('security/reset_password_request.html.twig', [
+        'requestPassForm' => $form->createView(),
+      ]);
+    }
 
-        // generate a URL for the password reset
-        $url = $this->generateUrl('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-
-        //create data for the email
-        $context = compact('url', 'user');
-
-        //send the email
-        $mail->send(
-          from: 'sylvain.vandermeersch@gmail.com',
-          to: $user->getEmail(),
-          subject: 'Reset your password',
-          htmlTemplate: 'reset_password_email',
-          context: $context
-        );
-
-        $this->addFlash('success', 'An email has been sent to you with a link to reset your password.');
-      }
+    $user = $userRepository->findOneByEmail($form->get('email')->getData());
+    if (!$user) {
       $this->addFlash('danger', 'A problem occurred, please try again later.');
       return $this->redirectToRoute('app_login');
     }
 
-    return $this->render('security/reset_password_request.html.twig', [
-      'requestPassForm' => $form->createView(),
-    ]);
+    // generate a reset token
+    $token = $tokenGenerator->generateToken();
+    $user->setResetToken($token);
+    $entityManager->persist($user);
+    $entityManager->flush();
+
+    // generate a URL for the password reset
+    $url = $this->generateUrl('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+
+    //send the email
+    $mail->send(
+      from: 'sylvain.vandermeersch@gmail.com',
+      to: $user->getEmail(),
+      subject: 'Reset your password',
+      htmlTemplate: 'reset_password_email',
+      context: compact('url', 'user')
+    );
+
+    $this->addFlash('success', 'An email has been sent to you with a link to reset your password.');
+    return $this->redirectToRoute('app_login');
   }
 
   #[Route(path: '/reset-password/{token}', name: 'app_reset_password')]
