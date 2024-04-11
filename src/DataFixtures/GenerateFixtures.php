@@ -63,7 +63,7 @@ class GenerateFixtures extends Fixture
       $manager->persist($image2);
       $video = $this->createVideo($trickItem['videoTutorial']);
       $manager->persist($video);
-      $trick = $this->createtrick(
+      $trick = $this->createTrick(
         $trickItem['name'],
         $randomCategory,
         $trickItem['description'],
