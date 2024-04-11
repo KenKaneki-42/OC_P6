@@ -1,0 +1,20 @@
+{
+  "name": "SnowTricks",
+  "short_name": "ST",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#051722 ",
+  "description": "SnowTricks is a web application for takling about SnowTricks, CRUD system for snowboard tricks and display videos and images.",
+  "icons": [
+    {
+      "src": "chemin/vers/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "chemin/vers/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
