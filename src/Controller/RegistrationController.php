@@ -45,12 +45,12 @@ class RegistrationController extends AbstractController
       $mail->send(
         from: 'sylvain.vandermeersch@gmail.com',
         to: $user->getEmail(),
-        subject: 'Activate your account on SnowTricks',
+        subject: 'Activation de votre compte SnowTricks',
         htmlTemplate: 'confirmation_email',
         context: compact('user', 'token')
       );
 
-      $message = sprintf('Your account has been created, please confirm your account, a validation link has been sent on your email : %s', $user->getEmail());
+      $message = sprintf("Votre compte a été crée, merci de le confirmer la création, un lien de validation vous a été envoyé par email à l'adresse suivante : %s", $user->getEmail());
       $this->addFlash(
         'notice',
         $message
@@ -72,7 +72,7 @@ class RegistrationController extends AbstractController
     $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $token]);
 
     if (!$user) {
-      $this->addFlash('error', 'Invalid token');
+      $this->addFlash('error', 'Token invalide.');
       return $this->redirectToRoute('app_register');
     }
 
@@ -81,7 +81,7 @@ class RegistrationController extends AbstractController
     $entityManager->persist($user);
     $entityManager->flush();
 
-    $this->addFlash('success', 'Your email address has been verified.');
+    $this->addFlash('success', 'Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.');
 
     return $this->redirectToRoute('app_login');
   }

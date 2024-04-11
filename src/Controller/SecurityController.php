@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
   {
     throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall.');
   }
-  
+
   #[Route(path: '/forgotten-password', name: 'app_forgotten_password')]
   public function forgottenPassword(
     Request $request,
@@ -58,7 +58,7 @@ class SecurityController extends AbstractController
 
     $user = $userRepository->findOneByEmail($form->get('email')->getData());
     if (!$user) {
-      $this->addFlash('danger', 'A problem occurred, please try again later.');
+      $this->addFlash('danger', 'un problème est survenu, veuillez réessayer plus tard.');
       return $this->redirectToRoute('app_login');
     }
 
@@ -80,7 +80,7 @@ class SecurityController extends AbstractController
       context: compact('url', 'user')
     );
 
-    $this->addFlash('success', 'An email has been sent to you with a link to reset your password.');
+    $this->addFlash('success', 'un email vous a été envoyé avec un lien pour réinitialiser votre mot de passe.');
     return $this->redirectToRoute('app_login');
   }
 
@@ -95,7 +95,7 @@ class SecurityController extends AbstractController
     // check if the token is valid
     $user = $userRepository->findOneByResetToken($token);
     if (!$user) {
-      $this->addFlash('danger', 'Invalid token.');
+      $this->addFlash('danger', 'Token invalide.');
       return $this->redirectToRoute('app_login');
     }
 
@@ -115,7 +115,7 @@ class SecurityController extends AbstractController
     $entityManager->persist($user);
     $entityManager->flush();
 
-    $this->addFlash('success', 'Password updated successfully.');
+    $this->addFlash('success', 'Mot de passe mis à jour avec succès.');
     return $this->redirectToRoute('app_login');
   }
 }
