@@ -46,7 +46,7 @@ class Trick
   #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'trick')]
   private Collection $videos;
 
-  #[ORM\ManyToOne(inversedBy: 'name')]
+  #[ORM\ManyToOne(inversedBy: 'tricks')]
   #[ORM\JoinColumn(nullable: false)]
   private ?TrickCategory $trickCategory = null;
 
