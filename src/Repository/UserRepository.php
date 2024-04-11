@@ -54,7 +54,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $users = $this->findAll();
 
         // Filter the array to exclude the author
-        $otherUsers = array_filter($users, function($user) use ($author) {
+        $otherUsers = array_filter($users, function(User $user) use ($author) {
             return $user->getId() !== $author->getId();
         });
 
