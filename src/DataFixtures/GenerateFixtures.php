@@ -27,7 +27,7 @@ class GenerateFixtures extends Fixture
   ) {
   }
 
-  public function load(ObjectManager $manager)
+  public function load(ObjectManager $manager): void
   {
     // Read data users from JSON file
     $userData = json_decode(file_get_contents(__DIR__ . '/usersData.json'), true);
@@ -63,7 +63,7 @@ class GenerateFixtures extends Fixture
       $manager->persist($image2);
       $video = $this->createVideo($trickItem['videoTutorial']);
       $manager->persist($video);
-      $trick = $this->createtrick(
+      $trick = $this->createTrick(
         $trickItem['name'],
         $randomCategory,
         $trickItem['description'],

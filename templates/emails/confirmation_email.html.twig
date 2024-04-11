@@ -1,0 +1,7 @@
+<body>
+  <h1>Activate your account</h1>
+  <p>Hello {{ user.firstname }},</p>
+  <p>Thank you for signing up with Snowtricks. Please click the link below to activate your account.</p>
+  <p><a href="{{ absolute_url(path('app_verify_email', {token: token})) }}">clic here!</a></p>
+  {# <p> This link will expire in 24 hours.</p> #}
+</body>

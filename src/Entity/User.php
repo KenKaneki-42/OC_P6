@@ -10,12 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
   #[ORM\Id]
@@ -39,9 +41,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    * @var string The hashed password
    */
   #[ORM\Column(type: Types::STRING, length: 255)]
-  #[Assert\NotBlank]
-  #[Assert\PasswordStrength(min: 8, minMessage: 'Your password must be at least {{ limit }} characters long', requireLetters: true, requireNumbers: true, requireCaseDiff: true, requireSpecialCharacter: true)]
+  #[Assert\NotBlank(groups: ['password'])]
+  #[Assert\Length(min: 8)]
+  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.", groups: ['password'])]
   private ?string $password = null;
+
+  private ?string $plainPassword = null;
 
   #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user', orphanRemoval: true)]
   private Collection $tricks;
@@ -54,8 +59,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[Assert\NotBlank]
   private ?string $lastname = null;
 
-  #[ORM\Column(length: 255, unique: true)]
+  #[ORM\Column(length: 255, unique: true, nullable: true)]
   private ?string $token = null;
+
+  #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+  private ?string $resetToken = null;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
   #[Assert\NotBlank(message: 'creation date cannot be null')]
@@ -67,14 +75,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
   private ?bool $isEnabled = null;
 
-  #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
-  private ?bool $isValidated = null;
-
   #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
   private Collection $comments;
 
   #[ORM\OneToMany(targetEntity: ProfilPicture::class, mappedBy: 'user')]
   private Collection $profilPictures;
+
+  #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+  private bool $isVerified = false;
 
   public function __construct()
   {
@@ -83,8 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     $this->profilPictures = new ArrayCollection();
     $this->createdAt = new \DateTimeImmutable();
     $this->updatedAt = $this->createdAt;
-    $this->isValidated = false;
+    $this->isVerified = false;
     $this->isEnabled = true;
+    $this->roles = ['ROLE_USER'];
+    $this->token = bin2hex(random_bytes(32));
   }
 
   public function getId(): ?int
@@ -159,7 +169,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   public function eraseCredentials(): void
   {
     // If you store any temporary, sensitive data on the user, clear it here
-    // $this->plainPassword = null;
+    $this->plainPassword = null;
+  }
+
+  public function getPlainPassword(): ?string
+  {
+    return $this->plainPassword;
+  }
+
+  public function setPlainPassword(string $plainPassword): static
+  {
+    $this->plainPassword = $plainPassword;
+
+    return $this;
   }
 
   /**
@@ -221,9 +243,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this->token;
   }
 
-  public function setToken(string $token): static
+  public function setToken(?string $token): static
   {
     $this->token = $token;
+
+    return $this;
+  }
+
+  public function getResetToken(): ?string
+  {
+    return $this->resetToken;
+  }
+
+  public function setResetToken(?string $resetToken): static
+  {
+    $this->resetToken = $resetToken;
 
     return $this;
   }
@@ -260,18 +294,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   public function setIsEnabled(bool $isEnabled): static
   {
     $this->isEnabled = $isEnabled;
-
-    return $this;
-  }
-
-  public function getIsValidated(): ?bool
-  {
-    return $this->isValidated;
-  }
-
-  public function setIsValidated(bool $isValidated): static
-  {
-    $this->isValidated = $isValidated;
 
     return $this;
   }
@@ -334,5 +356,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     return $this;
+  }
+
+  public function isVerified(): bool
+  {
+      return $this->isVerified;
+  }
+
+  public function setIsVerified(bool $isVerified): static
+  {
+      $this->isVerified = $isVerified;
+
+      return $this;
   }
 }
