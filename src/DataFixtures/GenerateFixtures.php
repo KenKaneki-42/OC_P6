@@ -27,7 +27,7 @@ class GenerateFixtures extends Fixture
   ) {
   }
 
-  public function load(ObjectManager $manager)
+  public function load(ObjectManager $manager): void
   {
     // Read data users from JSON file
     $userData = json_decode(file_get_contents(__DIR__ . '/usersData.json'), true);
