@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use App\Entity\Trick;
 use App\Form\TrickFormType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Service\FileUploader;
 
