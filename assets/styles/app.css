@@ -1,3 +1,72 @@
 body {
     background-color: skyblue;
 }
+
+.category {
+    background-color: #007bff;
+    width: fit-content;
+    padding: 0.25rem 0.75rem;
+    border-radius: 25px;
+}
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-video, .hero-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding-top: 20vh;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  /* autres styles */
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  /* autres styles */
+}
+
+/* .container-tricks{
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+} */
+
+/* .card-trick {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  max-width: 200px;
+} */
+
+/* category */
+.category {
+  background-color: #007bff;
+  color:#007bff;
+}
