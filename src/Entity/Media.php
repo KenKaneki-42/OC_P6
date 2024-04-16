@@ -20,23 +20,23 @@ abstract class Media
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column(type: Types::INTEGER)]
-  protected int $id = null;
+  protected ?int $id = null;
 
   #[ORM\Column(type: Types::STRING)]
   #[Assert\NotBlank]
-  protected string $name = null;
+  protected ?string $name = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $description = null;
+  protected ?string $description = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $url = null;
+  protected ?string $url = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $externalId = null;
+  protected ?string $externalId = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $source = null;
+  protected ?string $source = null;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
   protected \DateTimeImmutable $createdAt;
