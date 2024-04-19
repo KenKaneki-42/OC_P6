@@ -18,7 +18,7 @@ use App\Repository\TrickRepository;
 #[Route('/trick')]
 class TrickController extends AbstractController
 {
-  #[Route('/', name: 'app_trick_index')]
+  #[Route('', name: 'app_trick_index')]
   public function index(TrickRepository $trickRepository): Response
   {
 
@@ -32,16 +32,19 @@ class TrickController extends AbstractController
   public function new(Request $request, TrickRepository $trickRepository, FileUploader $fileUploader): Response
     {
         $trick = new Trick();
-        $form = $this->createForm(TrickFormType::class, $trick, ['validation_groups' => 'new']);
+        $form = $this->createForm(TrickFormType::class, $trick);
+        // dd($form->isSubmitted());
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $slugger = new AsciiSlugger();
+          $slugger = new AsciiSlugger();
             $slug = $slugger->slug($form->getData()->getName());
             $trick->setSlug(strtolower($slug));
+            $trick->setUser($this->getUser());
+            // createdAt et UpdatedAt est déjà init dans le construct de l'entité
             $fileUploader->uploadImages($trick);
             $fileUploader->uploadVideos($trick);
+
             $trickRepository->add($trick, true);
 
             $this->addFlash('success', 'La figure a bien été créée');
@@ -55,19 +58,19 @@ class TrickController extends AbstractController
         ]);
     }
 
-  #[Route('/{slug}', name: 'app_trick_show', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET'])]
+  #[Route('/show/{slug}', name: 'app_trick_show', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET'])]
   public function show(Trick $trick): Response
   {
     return $this->render('trick/show.html.twig', compact('trick'));
   }
 
-  #[Route('/{slug}/edit', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
+  #[Route('/edit/{slug}', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
   public function edit(Request $request, Trick $trick, TrickRepository $trickRepository, FileUploader $fileUploader, EntityManagerInterface $em): Response
   {
     return $this->render('trick/edit.html.twig', compact('trick'));
   }
 
-  #[Route('/{slug}/delete', name: 'app_trick_delete', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['POST'])]
+  #[Route('/delete/{slug}', name: 'app_trick_delete', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['POST'])]
   public function delete(Trick $trick): Response
   {
     return $this->redirectToRoute('app_trick');

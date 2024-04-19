@@ -1,0 +1,92 @@
+
+{{ form_start(form) }}
+{{ form_widget(form._token) }}
+    <div>
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.trickCategory) }}
+    </div>
+    <div id="trick_images"
+        data-prototype="{{ include('trick/_image.html.twig', {form: form.images.vars.prototype})|e("html_attr") }}"
+        data-index="{{ form.images|length > 0 ? form.images|last.vars.name + 1 : 0 }}">
+        <div class="form-media section">
+            {% for image in form.images %}
+                {% if image %}
+                    <div class="input-media hidden-input">
+                        {# {{ dump(image.vars.data) }} #}
+                        <img src="{{ asset('images/uploads/') }}{{ image.vars.data.name }}" alt="{{ image.vars.data.name }}">
+                        {{ include('trick/_image.html.twig', {form: image}) }}
+                    </div>
+                    {% else %}
+                        <div class="input-media">
+                            {{ include('trick/_image.html.twig', {form: image}) }}
+                        </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {{ form_errors(form.images) }}
+        <button type="button" class="btn btn-primary btn-new mt-3" data-collection="#trick_images">Ajouter une image</button>
+    </div>
+    <div id="trick_videos" data-prototype="{{ include('trick/_video.html.twig', {form: form.videos.vars.prototype})|e("html_attr") }}" data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
+        <div class="form-media
+        section">
+            {% for video in form.videos %}
+                {% if video %}
+                    <div class="input-media hidden-input">
+                        <iframe width="350" height="215" src="https://www.youtube.com/embed/{{ video.vars.data.name }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        {{ include('trick/_video.html.twig', {form: video}) }}
+                    </div>
+                    {% else %}
+                        <div class="input-media">
+                            {{ include('trick/_video.html.twig', {form: video}) }}
+                        </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {{ form_errors(form.videos) }}
+        <button type="button" class="btn btn-primary btn-new mt-3" data-collection="#trick_videos">Ajouter une vidéo</button>
+    </div>
+    <div>
+        {{ form_errors(form) }}
+    </div>
+    <div>
+        {{ form_row(form.valider) }}
+    </div>
+{{ form_end(form, {render_rest: false}) }}
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+    // Add an image
+    const addButtonImage = document.querySelector('.btn-new[data-collection="#trick_images"]');
+    let collectionHolderImages = document.querySelector('#trick_images');
+
+    addButtonImage.addEventListener('click', function() {
+        let prototype = collectionHolderImages.dataset.prototype;
+        let index = parseInt(collectionHolderImages.dataset.index);
+        let newItem = prototype.replace(/__name__/g, index);
+        collectionHolderImages.dataset.index = index + 1;
+        collectionHolderImages.insertAdjacentHTML('beforeend', newItem);
+    });
+
+    // Add a video
+    const addButtonVideo = document.querySelector('.btn-new[data-collection="#trick_videos"]');
+    let collectionHolderVideos = document.querySelector('#trick_videos');
+
+    addButtonVideo.addEventListener('click', function() {
+        let prototype = collectionHolderVideos.dataset.prototype;
+        let index = parseInt(collectionHolderVideos.dataset.index);
+        let newItem = prototype.replace(/__name__/g, index);
+        collectionHolderVideos.dataset.index = index + 1;
+        collectionHolderVideos.insertAdjacentHTML('beforeend', newItem);
+    });
+});
+
+// Utiliser la délégation d'événements pour gérer tous les boutons de suppression actuels et futurs
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('btn-remove')) {
+        event.target.closest('.input-media').remove();
+    }
+});
+
+    </script>

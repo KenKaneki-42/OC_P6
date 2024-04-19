@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ trick.name }}
+	- Site Communautaire SnowTricks
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+		{% if trick.images and trick.images|first %}
+			{% set firstImage = trick.images|first %}
+			<img src="{{ firstImage.url }}" class="card-img-top" alt="{{ trick.name }}">
+			{% else %}
+			{# <img src="{{ asset('path/to/your/default/image.jpg') }}" class="card-img-top" alt="Default Image"> #}
+		{% endif %}
+		<div class="card-body">
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title">{{ trick.name }}</h5>
+        <div class="category">{{trick.trickCategory.name}}</div>
+      </div>
+
+			<p class="card-text">{{ trick.description }}</p>
+      {# {{ dump(trick.trickCategory.name)}} #}
+      {# <p class="category"> Category: {{trick.trickCategory.name}}</p> #}
+
+      {# <p> Catégorie : {{ trick.category.name }}</p> #}
+			{# <a href="{{ path('trick_index') }}" class="btn btn-primary">Retour à la liste des tricks</a> #}
+
+    </div>
+
+		<div>
+			<h2>Images</h2>
+			<div class="row">
+				{% for image in trick.images %}
+					<div class="col-4">
+						<img src="{{ image.url }}" class="img-thumbnail" alt="{{ trick.name }}">
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div>
+			<h2>Vidéos</h2>
+			<div class="row">
+				{% for video in trick.videos %}
+					<div class="col-4">
+						<div class="embed-responsive embed-responsive-16by9">
+              {# {{dump(video.externalId)}} #}
+							
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/AnI7qGQs0Ic" allowfullscreen></iframe>
+
+              {# <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe> #}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		{# <div>
+			<h2>Commentaires</h2>
+			{% if app.user %}
+				{{ render(controller('App\\Controller\\CommentController::new', { 'trick': trick.id })) }}
+			{% else %}
+				<p>Vous devez être connecté pour poster un commentaire</p>
+			{% endif %}
+			<div id="comments">
+				{% for comment in trick.comments %}
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">{{ comment.author.username }}</h5>
+							<p class="card-text">{{ comment.content }}</p>
+							<p class="card-text">
+								<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
+							</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div> #}
+    </div>
+		{% endblock %}

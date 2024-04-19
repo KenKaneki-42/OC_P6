@@ -8,28 +8,32 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ImageFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('url')
-            ->add('externalId')
-            ->add('source')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('trick', EntityType::class, [
-                'class' => Trick::class,
-                'choice_label' => 'id',
-            ])
-        ;
+        ->add('file', FileType::class, [
+          'required' => false,
+          'label' => false,
+          'attr' => ['class' => 'my-image'],
+          'constraints' => [
+              new File([
+                  'maxSize' => '5M',
+                  'mimeTypes' => [
+                      'image/png',
+                      'image/jpg',
+                      'image/jpeg'
+                  ],
+                  'mimeTypesMessage' => 'Merci d\'ajouter une image au format jpg ou png de maximum 5Mo.',
+              ]),
+              new NotNull(message: 'Veuillez renseigner tous les champs images', groups: ['new'])
+          ],
+      ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
