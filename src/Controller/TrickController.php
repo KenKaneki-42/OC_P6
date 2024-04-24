@@ -12,6 +12,7 @@ use App\Form\TrickFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Service\FileUploader;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use App\Repository\TrickRepository;
 
@@ -29,50 +30,95 @@ class TrickController extends AbstractController
   }
 
   #[Route('/new', name: 'app_trick_new', methods: ['GET', 'POST'])]
+  #[IsGranted('IS_AUTHENTICATED')]
   public function new(Request $request, TrickRepository $trickRepository, FileUploader $fileUploader): Response
-    {
-        $trick = new Trick();
-        $form = $this->createForm(TrickFormType::class, $trick);
-        // dd($form->isSubmitted());
-        $form->handleRequest($request);
+  {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-          $slugger = new AsciiSlugger();
-            $slug = $slugger->slug($form->getData()->getName());
-            $trick->setSlug(strtolower($slug));
-            $trick->setUser($this->getUser());
-            // createdAt et UpdatedAt est déjà init dans le construct de l'entité
-            $fileUploader->uploadImages($trick);
-            $fileUploader->uploadVideos($trick);
+    $trick = new Trick();
+    $form = $this->createForm(TrickFormType::class, $trick, ['validation_groups' => 'new']);
 
-            $trickRepository->add($trick, true);
+    $form->handleRequest($request);
 
-            $this->addFlash('success', 'La figure a bien été créée');
+    if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
-        }
+      $slugger = new AsciiSlugger();
+      $slug = $slugger->slug($form->getData()->getName());
+      $trick->setSlug(strtolower($slug));
+      $trick->setUser($this->getUser());
+      $trick->setDescription($form->getData()->getDescription());
+      // createdAt et UpdatedAt est déjà init dans le construct de l'entité
+      $fileUploader->uploadImages($trick);
+      $fileUploader->uploadVideos($trick);
+      $trick->setTrickCategory($form->getData()->getTrickCategory());
+      $trickRepository->add($trick, true);
 
-        return $this->render('trick/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
+      $this->addFlash('success', 'La figure a bien été créée');
+
+      return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    return $this->render('trick/new.html.twig', [
+      'trick' => $trick,
+      'form' => $form,
+    ]);
+  }
+
   #[Route('/show/{slug}', name: 'app_trick_show', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET'])]
-  public function show(Trick $trick): Response
+  public function show(Request $request, Trick $trick): Response
   {
-    return $this->render('trick/show.html.twig', compact('trick'));
+    $form = $this->createForm(TrickFormType::class, $trick, ['validation_groups' => 'edit']);
+    $form->handleRequest($request);
+
+    return $this->render('trick/show.html.twig', [
+      'trick' => $trick,
+      'form' => $form,
+    ]);
   }
 
   #[Route('/edit/{slug}', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
+  #[IsGranted('IS_AUTHENTICATED')]
   public function edit(Request $request, Trick $trick, TrickRepository $trickRepository, FileUploader $fileUploader, EntityManagerInterface $em): Response
   {
-    return $this->render('trick/edit.html.twig', compact('trick'));
+
+    $trick = $trickRepository->find($trick->getId());
+    $form = $this->createForm(TrickFormType::class, $trick, ['validation_groups' => 'edit']);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      $slugger = new AsciiSlugger();
+      $slug = $slugger->slug($form->getData()->getName());
+      $trick->setSlug(strtolower($slug));
+      $trick->setUser($this->getUser());
+      $trick->setDescription($form->getData()->getDescription());
+      $fileUploader->uploadImages($trick);
+      $fileUploader->uploadVideos($trick);
+      $trick->setTrickCategory($form->getData()->getTrickCategory());
+      $trickRepository->add($trick, true);
+
+      $this->addFlash('success', 'La figure a bien été modifiée');
+
+      return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+    }
+    return $this->render('trick/edit.html.twig', [
+      'trick' => $trick,
+      'form' => $form,
+    ]);
   }
 
-  #[Route('/delete/{slug}', name: 'app_trick_delete', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['POST'])]
-  public function delete(Trick $trick): Response
+  #[Route('/{id}', name: 'app_trick_delete', methods: ['POST'])]
+  #[IsGranted('IS_AUTHENTICATED')]
+  public function delete(Request $request, Trick $trick, TrickRepository $trickRepository): Response
   {
-    return $this->redirectToRoute('app_trick');
+    $token = $request->request->get('_token');
+
+    if ($this->isCsrfTokenValid(sprintf('delete%s', $trick->getId()), $token)) {
+      $trickRepository->remove($trick, true);
+    } else {
+      $this->addFlash('danger', 'La figure n\'a pas pu être supprimée');
+    }
+
+    return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
   }
 }
