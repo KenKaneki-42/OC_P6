@@ -1,0 +1,7 @@
+<div>
+    {% set file = form.file.vars.data %}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.file) }}
+    <button type="button" class="btn btn-danger btn-remove">Supprimer</button>
+</div>

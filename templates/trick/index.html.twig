@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick index{% endblock %}
+
+{% block body %}
+    <section class="container">
+        <h1>Trick index</h1>
+        <a href="{{ path('app_trick_new') }}" class="btn btn-primary">Créer</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for trick in tricks %}
+                <tr>
+                    <td>{{ trick.id }}</td>
+                    <td>{{ trick.name }}</td>
+                    <td>
+                        <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">show</a>
+                        <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+<div id="my_anchor"></div>
+    </section>
+{% endblock %}

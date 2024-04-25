@@ -1,9 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'app.title'|trans }}{% endblock %}
-
-{% block body %}
-    <h1>{{ 'app.title'|trans }}</h1>
-    <p>{{ 'app.description'|trans }}</p>
+{% block title %}
+	Page d'accueil - Site Communautaire SnowTricks
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+{% endblock %}
+
+
+{% block body %}
+	<section class="hero-section">
+		<div class="hero-background">
+			<video autoplay loop muted class="hero-video">
+				<source src="{{ asset('assets/videos/hero-video.mp4') }}" type="video/mp4">
+			</video>
+		</div>
+		<div class="hero-content">
+			<h1>Rejoignez la communauté ultime des snowboarders</h1>
+			<p>Découvrez, partagez et maîtrisez les meilleurs tricks de snowboard</p>
+			<div class="hero-cta">
+				<a href="#join" class="btn btn-primary">Rejoignez-nous maintenant</a>
+				<a href="#discover" class="btn btn-secondary">Découvrez les tricks</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="d-flex flex-column align-center">
+		{% if tricks is not empty %}
+			<h2 id="discover" class="text-center my-5">Découvrez les tricks</h2>
+			{# add a trick #}
+			<div class="text-center">
+				<a href="{{ path('app_trick_new') }}" class="btn btn-primary">Ajouter un trick</a>
+			</div>
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+				{% for trick in tricks %}
+					<div class="col">
+						<div class="card h-100">
+							{% if trick.images|length > 0 %}
+								{% set firstImage = trick.images|first %}
+								{% if firstImage.description != "Image description" %}
+									<img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
+								{% else %}
+									<img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
+								{% endif %}
+							{% else %}
+								<img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
+							{% endif %}
+							<div class="card-body">
+								<h5 class="card-title">{{ trick.name }}</h5>
+								<p class="card-text">{{ trick.description }}</p>
+								<a href="{{ path('app_trick_show', {'slug': trick.slug}) }}" class="btn btn-primary">Voir le trick</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+
+			</div>
+		{% else %}
+			<p class="text-center">Aucun trick n'a encore été ajouté</p>
+		{% endif %}
+	</section>
+
+{% endblock %}

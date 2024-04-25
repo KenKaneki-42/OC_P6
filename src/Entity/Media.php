@@ -6,6 +6,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\InheritanceType("JOINED")]
@@ -17,28 +20,31 @@ abstract class Media
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column(type: Types::INTEGER)]
-  protected int $id;
+  protected ?int $id = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $name;
+  #[Assert\NotBlank]
+  protected ?string $name = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $description;
+  protected ?string $description = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $url;
+  protected ?string $url = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $externalId;
+  protected ?string $externalId = null;
 
   #[ORM\Column(type: Types::STRING)]
-  protected string $source;
+  protected ?string $source = null;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
   protected \DateTimeImmutable $createdAt;
 
   #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
   protected \DateTimeImmutable $updatedAt;
+
+  protected ?File $file = null;
 
   public function __construct()
   {
@@ -132,5 +138,17 @@ abstract class Media
     $this->updatedAt = $updatedAt;
 
     return $this;
+  }
+
+  public function getFile(): ?File
+  {
+      return $this->file;
+  }
+
+  public function setFile(?File $file): static
+  {
+      $this->file = $file;
+
+      return $this;
   }
 }
