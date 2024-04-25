@@ -7,7 +7,7 @@ use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
-final class Video extends Media
+class Video extends Media
 {
     #[ORM\ManyToOne(inversedBy: 'videos')]
     private ?Trick $trick = null;

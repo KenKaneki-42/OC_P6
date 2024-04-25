@@ -11,7 +11,7 @@ use App\Entity\Trick;
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 
 
-final class Image extends Media
+class Image extends Media
 {
   #[ORM\ManyToOne(inversedBy: 'images')]
   private ?Trick $trick = null;

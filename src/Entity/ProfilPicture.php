@@ -8,7 +8,7 @@ use App\Repository\ProfilPictureRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfilPictureRepository::class)]
-final class ProfilPicture extends Media
+class ProfilPicture extends Media
 {
   #[ORM\ManyToOne(inversedBy: 'profilPictures')]
   private ?User $user = null;
