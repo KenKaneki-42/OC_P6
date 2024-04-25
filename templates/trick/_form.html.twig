@@ -12,9 +12,8 @@
         <div class="form-media section">
             {% for image in form.images %}
                 {% if image %}
-                    <div class="input-media hidden-input">
-                        {# {{ dump(image.vars.data) }} #}
-                        <img src="{{ asset('images/uploads/') }}{{ image.vars.data.name }}" alt="{{ image.vars.data.name }}">
+                    <div class="input-media hidden-input col-4">
+                        <img src="{{ asset('images/uploads/') }}{{ image.vars.data.name }}" alt="{{ image.vars.data.name }}" class="img-thumbnail">
                         {{ include('trick/_image.html.twig', {form: image}) }}
                     </div>
                     {% else %}

@@ -6,33 +6,39 @@
 
 {% block body %}
 	<div class="card">
-		{% if trick.images and trick.images|first %}
+		{% if trick.images|length > 0 %}
 			{% set firstImage = trick.images|first %}
-			<img src="{{ firstImage.url }}" class="card-img-top" alt="{{ trick.name }}">
+			{% if firstImage.description != "Image description" %}
+				<img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
 			{% else %}
-			{# <img src="{{ asset('path/to/your/default/image.jpg') }}" class="card-img-top" alt="Default Image"> #}
+				<img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
+			{% endif %}
+		{% else %}
+			<img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
 		{% endif %}
 		<div class="card-body">
-      <div class="d-flex justify-content-between">
-        <h5 class="card-title">{{ trick.name }}</h5>
-        <div class="category">{{trick.trickCategory.name}}</div>
-      </div>
+			<div class="d-flex justify-content-between">
+				<h5 class="card-title">{{ trick.name }}</h5>
+				<div class="category">{{trick.trickCategory.name}}</div>
+			</div>
 
 			<p class="card-text">{{ trick.description }}</p>
-      {# {{ dump(trick.trickCategory.name)}} #}
-      {# <p class="category"> Category: {{trick.trickCategory.name}}</p> #}
+			{# {{ dump(trick.trickCategory.name)}} #}
+		{# <p class="category"> Category: {{trick.trickCategory.name}}</p> #}
 
-      {# <p> Catégorie : {{ trick.category.name }}</p> #}
+			{# <p> Catégorie : {{ trick.category.name }}</p> #}
 			{# <a href="{{ path('trick_index') }}" class="btn btn-primary">Retour à la liste des tricks</a> #}
 
-    </div>
+		</div>
 
 		<div>
 			<h2>Images</h2>
-			<div class="row">
+			<div
+				class="row">
+				{# {{ dump(trick.images)}} #}
 				{% for image in trick.images %}
 					<div class="col-4">
-						<img src="{{ image.url }}" class="img-thumbnail" alt="{{ trick.name }}">
+						<img src="{{ asset('images/uploads/' ~ image.name) }}" class="img-thumbnail" alt="{{ image.description }}">
 					</div>
 				{% endfor %}
 			</div>
@@ -43,12 +49,13 @@
 			<div class="row">
 				{% for video in trick.videos %}
 					<div class="col-4">
-						<div class="embed-responsive embed-responsive-16by9">
-              {# {{dump(video.externalId)}} #}
-							
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/AnI7qGQs0Ic" allowfullscreen></iframe>
+						<div
+							class="embed-responsive embed-responsive-16by9">
+							{# {{dump(video.externalId)}} #}
 
-              {# <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe> #}
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
+
+							{# <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe> #}
 						</div>
 					</div>
 				{% endfor %}
@@ -56,24 +63,24 @@
 		</div>
 
 		{# <div>
-			<h2>Commentaires</h2>
-			{% if app.user %}
-				{{ render(controller('App\\Controller\\CommentController::new', { 'trick': trick.id })) }}
-			{% else %}
-				<p>Vous devez être connecté pour poster un commentaire</p>
-			{% endif %}
-			<div id="comments">
-				{% for comment in trick.comments %}
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title">{{ comment.author.username }}</h5>
-							<p class="card-text">{{ comment.content }}</p>
-							<p class="card-text">
-								<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
-							</p>
-						</div>
-					</div>
-				{% endfor %}
-			</div> #}
-    </div>
-		{% endblock %}
+					<h2>Commentaires</h2>
+					{% if app.user %}
+						{{ render(controller('App\\Controller\\CommentController::new', { 'trick': trick.id })) }}
+					{% else %}
+						<p>Vous devez être connecté pour poster un commentaire</p>
+					{% endif %}
+					<div id="comments">
+						{% for comment in trick.comments %}
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">{{ comment.author.username }}</h5>
+									<p class="card-text">{{ comment.content }}</p>
+									<p class="card-text">
+										<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
+									</p>
+								</div>
+							</div>
+						{% endfor %}
+					</div> #}
+	</div>
+{% endblock %}
