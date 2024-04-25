@@ -4,8 +4,6 @@
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
-
-// import './styles/app.scss'; // si je name app.css en app.scss ma personnalisation css ne remonte pas
 import './styles/app.css';
 
 // import '@fortawesome/fontawesome-free/css/all.css';
@@ -31,3 +29,5 @@ import './styles/app.css';
 // import './bootstrap.js';
 
 // import './js/flatpicker.js';
+
+console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
