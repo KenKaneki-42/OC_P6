@@ -32,7 +32,7 @@ class ImageFormType extends AbstractType
                       'image/jpg',
                       'image/jpeg'
                   ],
-                  'mimeTypesMessage' => 'Merci d\'ajouter une image au format jpg ou png de maximum 5Mo.',
+                  'mimeTypesMessage' => 'Merci d\'ajouter une image au format jpg, png ou avif de maximum 5Mo.',
               ]),
               new NotNull(message: 'Veuillez renseigner tous les champs images', groups: ['new'])
           ],
