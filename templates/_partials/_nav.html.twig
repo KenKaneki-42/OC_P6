@@ -37,7 +37,9 @@
             <a id="deconnexion-link" class="nav-link" href="/logout">Déconnexion</a>
           </li>
           <li class="nav-item">
+          <a href="/profil">
             {{ app.user.email }}
+          </a>
           </li>
         {% else %}
           <li class="nav-item">

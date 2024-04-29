@@ -21,66 +21,55 @@
 				<h5 class="card-title">{{ trick.name }}</h5>
 				<div class="category">{{trick.trickCategory.name}}</div>
 			</div>
-
 			<p class="card-text">{{ trick.description }}</p>
-			{# {{ dump(trick.trickCategory.name)}} #}
-		{# <p class="category"> Category: {{trick.trickCategory.name}}</p> #}
-
-			{# <p> Catégorie : {{ trick.category.name }}</p> #}
-			{# <a href="{{ path('trick_index') }}" class="btn btn-primary">Retour à la liste des tricks</a> #}
-
 		</div>
 
-		<div>
-			<h2>Images</h2>
-			<div
-				class="row">
-				{# {{ dump(trick.images)}} #}
-				{% for image in trick.images %}
-					<div class="col-4">
-						<img src="{{ asset('images/uploads/' ~ image.name) }}" class="img-thumbnail" alt="{{ image.description }}">
-					</div>
-				{% endfor %}
-			</div>
-		</div>
+    <div class="containerMedia">
+      <div id="carrou1">
+        <h2>Images</h2>
+        <div class="row">
+          {% for image in trick.images %}
+            <div class="col-4">
+              <img src="{{ asset('images/uploads/' ~ image.name) }}" class="img-thumbnail" alt="{{ image.description }}">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div id="carrou2">
+        <h2>Vidéos</h2>
+        <div class="row">
+          {% for video in trick.videos %}
+            <div class="col-4">
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
 
 		<div>
-			<h2>Vidéos</h2>
-			<div class="row">
-				{% for video in trick.videos %}
-					<div class="col-4">
-						<div
-							class="embed-responsive embed-responsive-16by9">
-							{# {{dump(video.externalId)}} #}
+			<h2>Commentaires</h2>
+			{% if app.user %}
+				{{ include('comment/_form.html.twig', {'commentForm': form}) }}
+			{% else %}
+				<p>Vous devez être connecté pour poster un commentaire</p>
+			{% endif %}
+			<div id="comments">
 
-							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
-
-							{# <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe> #}
+				{% for comment in trick.comments %}
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">{{ comment.user.firstname ~ " " ~ comment.user.lastname}}</h5>
+							<p class="card-text">{{ comment.content }}</p>
+							<p class="card-text">
+								<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
+							</p>
 						</div>
 					</div>
 				{% endfor %}
 			</div>
 		</div>
-
-		{# <div>
-					<h2>Commentaires</h2>
-					{% if app.user %}
-						{{ render(controller('App\\Controller\\CommentController::new', { 'trick': trick.id })) }}
-					{% else %}
-						<p>Vous devez être connecté pour poster un commentaire</p>
-					{% endif %}
-					<div id="comments">
-						{% for comment in trick.comments %}
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">{{ comment.author.username }}</h5>
-									<p class="card-text">{{ comment.content }}</p>
-									<p class="card-text">
-										<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
-									</p>
-								</div>
-							</div>
-						{% endfor %}
-					</div> #}
-	</div>
-{% endblock %}
+	{% endblock %}

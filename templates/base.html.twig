@@ -12,6 +12,7 @@
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
+            <script src="https://kit.fontawesome.com/f4f291628b.js" crossorigin="anonymous"></script>
         {% endblock %}
     </head>
     <body>
@@ -32,12 +33,10 @@
         {# read and display all flash messages #}
         {% include "_partials/_flash.html.twig"%}
 
-        <section class="container my-3">
-          <div class="row">
-            <div class="col">
+        <section class="hero-container">
+
             {% block body %}{% endblock %}
-            </div>
-          </div>
+
         </section>
 
         {% include "_partials/_footer.html.twig"%}
