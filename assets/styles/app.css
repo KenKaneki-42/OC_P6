@@ -12,7 +12,7 @@ body {
 
 .hero-section {
 position: relative;
-height: 100vh;
+height: 90vh;
 color: #fff;
 text-align: center;
 }
@@ -36,6 +36,21 @@ object-fit: cover;
 position: relative;
 z-index: 2;
 padding-top: 20vh;
+}
+
+.hero-container{
+width: 100%;
+}
+
+.anchor-bottom-right {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.fa-arrow-down {
+  color:black;
 }
 
 .btn-primary {
