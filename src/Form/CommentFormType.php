@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentFormType extends AbstractType
 {
@@ -16,20 +17,9 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('trick', EntityType::class, [
-                'class' => Trick::class,
-                'choice_label' => 'id',
-            ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
+            ->add('valider', SubmitType::class, [
+              'label' => 'Publier le commentaire'
+            ]);
         ;
     }
 

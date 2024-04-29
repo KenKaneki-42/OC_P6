@@ -9,12 +9,15 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use App\Entity\Trick;
 use App\Form\TrickFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Service\FileUploader;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
+use App\Entity\Comment;
+use App\Repository\CommentRepository;
+use App\Form\CommentFormType;
+use Symfony\Bundle\SecurityBundle\Security;
 use App\Repository\TrickRepository;
+
 
 #[Route('/trick')]
 class TrickController extends AbstractController
@@ -63,21 +66,31 @@ class TrickController extends AbstractController
     ]);
   }
 
-  #[Route('/show/{slug}', name: 'app_trick_show', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET'])]
-  public function show(Request $request, Trick $trick): Response
+  #[Route('/show/{slug}', name: 'app_trick_show', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
+  public function show(Request $request, Trick $trick, CommentRepository $commentRepository, Security $security): Response
   {
-    $form = $this->createForm(TrickFormType::class, $trick, ['validation_groups' => 'edit']);
+    $comment = new Comment();
+    $form = $this->createForm(CommentFormType::class, $comment);
     $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $user = $security->getUser();
+      $comment->setTrick($trick);
+      $comment->setUser($user);
+      $commentRepository->add($comment, true);
+
+      return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
+  }
 
     return $this->render('trick/show.html.twig', [
       'trick' => $trick,
-      'form' => $form,
+      'form' => $form->createView(),
     ]);
   }
 
   #[Route('/edit/{slug}', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED')]
-  public function edit(Request $request, Trick $trick, TrickRepository $trickRepository, FileUploader $fileUploader, EntityManagerInterface $em): Response
+  public function edit(Request $request, Trick $trick, TrickRepository $trickRepository, FileUploader $fileUploader): Response
   {
 
     $trick = $trickRepository->find($trick->getId());

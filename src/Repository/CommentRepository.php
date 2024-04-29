@@ -16,8 +16,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Comment::class);
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Comment::class);
+  }
+
+  public function add(Comment $entity, bool $flush = false): void
+  {
+    $this->getEntityManager()->persist($entity);
+
+    if ($flush) {
+      $this->getEntityManager()->flush();
     }
+  }
 }
