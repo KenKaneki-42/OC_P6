@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use App\Entity\TrickCategory;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,14 +12,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TrickFormType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder
-      ->add('name')
-      ->add('description')
+      ->add('name', TextType::class, [
+        'label' => 'Nom de la figure'
+      ])
+      ->add('description', TextareaType::class, [
+        'label' => 'Description'
+      ])
       ->add('trickCategory', EntityType::class, [
         'class' => TrickCategory::class,
         'choice_label' => 'name',
