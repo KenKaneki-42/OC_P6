@@ -39,7 +39,7 @@ class FileUploader
       if ($image->getFile() !== null) {
         $image->setName($this->upload($image->getFile()));
         $image->setUrl($this->getTargetDirectory() . '/' . $image->getName());
-        $image->setDescription($image->getDescription());
+        $image->setDescription($trick->getName());
         $image->setSource('upload');
         $image->setExternalId('none');
       } elseif ($image->getName() === null && $image->getFile() === null) {
@@ -65,8 +65,8 @@ class FileUploader
         $video->setexternalId($videoId['v']);
         $video->setSource($check);
         $video->setUrl($video->getUrl());
-        $video->setName($video->getName());
-        $video->setDescription($video->getDescription());
+        $video->setName($trick->getName());
+        $video->setDescription($trick->getName());
         $trick->addVideo($video);
       } elseif ($video->getName() === null || $video->getExternalId() === null) {
         $trick->removeVideo($video);
