@@ -7,53 +7,103 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="/">Home</a>
+					<a id="homepage-link" class="nav-link" aria-current="page" href="/">Accueil</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
+					<a id="new-trick-link" class="nav-link" href="/trick/new">Créer un Trick</a>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Dropdown
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a class="dropdown-item" href="#">Action</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">Another action</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled" aria-disabled="true">Disabled</a>
-				</li>
-        {% if app.user %}
-          <li class="nav-item">
-            <a id="deconnexion-link" class="nav-link" href="/logout">Déconnexion</a>
-          </li>
-          <li class="nav-item">
-          <a href="/profil">
-            {{ app.user.email }}
-          </a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a id="connexion-link" class="nav-link" href="/login">Connexion</a>
-          </li>
-          <li class="nav-item">
-            <a id="inscription-link" class="nav-link" href="/register">Inscription</a>
-          </li>
-        {% endif %}
+				{# <li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										Dropdown
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" href="#">Action</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Another action</a>
+										</li>
+										<li><hr class="dropdown-divider"></li>
+										<li>
+											<a class="dropdown-item" href="#">Something else here</a>
+										</li>
+									</ul>
+								</li> #}
+				{# <li class="nav-item">
+									<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+								</li> #}
+				{% if app.user %}
+					<li class="nav-item">
+						<a id="deconnexion-link" class="nav-link" href="/logout">Déconnexion</a>
+					</li>
+					<li class="nav-item">
+						<a href="/profil">
+							{% if app.user.profilPictures is not empty %}
+								<img src="{{ asset('images/uploads/' ~ app.user.profilPictures.last.name) }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+							{% else %}
+								<img src="{{ asset('images/default-profil-picture.webp') }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+							{% endif %}
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a id="connexion-link" class="nav-link" href="/login">Connexion</a>
+					</li>
+					<li class="nav-item">
+						<a id="inscription-link" class="nav-link" href="/register">Inscription</a>
+					</li>
+				{% endif %}
 			</ul>
 			{# <form class="d-flex" role="search">
-			                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-			                <button class="btn btn-outline-success" type="submit">Search</button>
-			              </form> #}
+						                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+						                <button class="btn btn-outline-success" type="submit">Search</button>
+						              </form> #}
 		</div>
 	</div>
 </nav>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () { // Retrieve active link ID or class from local storage
+const activeLinkId = localStorage.getItem('activeLinkId');
+console.log(localStorage);
+// Apply the active-link class to the corresponding link
+if (activeLinkId) {
+const activeLink = document.getElementById(activeLinkId);
+if (activeLink) {
+activeLink.classList.add('active-link');
+}
+}
+
+// Add an event handler for each link
+document.querySelectorAll('.nav-item a').forEach(link => {
+link.addEventListener('click', function () { // Delete the active-link class from all links
+document.querySelectorAll('.nav-item a').forEach(link => {
+link.classList.remove('active-link');
+});
+// Add the active-link class to the clicked link
+this.classList.add('active-link');
+// Store the ID or class of the active link in local storage
+localStorage.setItem('activeLinkId', this.id);
+});
+});
+});
+</script>
+
+<script>
+	// Handle scrolling for navbar with delay in hiding
+document.addEventListener('DOMContentLoaded', function () {
+var prevScrollpos = window.pageYOffset;
+window.addEventListener('scroll', function () {
+var currentScrollPos = window.pageYOffset;
+// if user scrolls down
+if (currentScrollPos > 80) {
+if (prevScrollpos > currentScrollPos) {
+document.querySelector(".navbar").style.top = "0";
+} else {
+document.querySelector(".navbar").style.top = "-68px";
+}
+}
+prevScrollpos = currentScrollPos;
+});
+});
+</script>

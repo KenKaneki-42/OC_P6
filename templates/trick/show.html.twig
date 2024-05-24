@@ -6,16 +6,29 @@
 
 {% block body %}
 	<div class="card">
-		{% if trick.images|length > 0 %}
-			{% set firstImage = trick.images|first %}
-			{% if firstImage.description != "Image description" %}
-				<img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
-			{% else %}
-				<img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
-			{% endif %}
-		{% else %}
-			<img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
-		{% endif %}
+		{# add icone edit and delete if the user of the trick is the creator #}
+
+    <div class="background-image-container">
+      {% if app.user == trick.user %}
+        <div class="d-flex justify-content-center crud-icons">
+
+          <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+          {{ include('trick/_delete_form.html.twig') }}
+        </div>
+      {% endif %}
+
+      {% if trick.images|length > 0 %}
+        {% set firstImage = trick.images|first %}
+        {% if firstImage.description != "Image description" %}
+          <img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
+        {% else %}
+          <img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
+        {% endif %}
+      {% else %}
+        <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
+      {% endif %}
+    </div>
+
 		<div class="card-body">
 			<div class="d-flex justify-content-between">
 				<h5 class="card-title">{{ trick.name }}</h5>
@@ -24,31 +37,35 @@
 			<p class="card-text">{{ trick.description }}</p>
 		</div>
 
-    <div class="containerMedia">
-      <div id="carrou1">
-        <h2>Images</h2>
-        <div class="row">
-          {% for image in trick.images %}
-            <div class="col-4">
-              <img src="{{ asset('images/uploads/' ~ image.name) }}" class="img-thumbnail" alt="{{ image.description }}">
-            </div>
-          {% endfor %}
-        </div>
-      </div>
+		<div class="containerMedia">
 
-      <div id="carrou2">
-        <h2>Vidéos</h2>
-        <div class="row">
+			<div class="container-carousel">
+				<div id="carousel-images"class="carousel-images">
+					{% for image in trick.images %}
+						<div class="col-4">
+							<img src="{{ asset('images/uploads/' ~ image.name) }}" class="test" alt="{{ image.description }}">
+						</div>
+					{% endfor %}
+				</div>
+				<button class="prev" onclick="moveSlideImg(-1)">&#10094;</button>
+				<button class="next" onclick="moveSlideImg(1)">&#10095;</button>
+			</div>
+
+      <div class="container-carousel">
+        <div id="carousel-videos"class="carousel-videos">
           {% for video in trick.videos %}
-            <div class="col-4">
+            <div class="col-6">
               <div class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
               </div>
             </div>
           {% endfor %}
         </div>
+        <button class="prev" onclick="moveSlideVideo(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlideVideo(1)">&#10095;</button>
       </div>
-    </div>
+
+		</div>
 
 		<div>
 			<h2>Commentaires</h2>
@@ -62,8 +79,16 @@
 				{% for comment in trick.comments %}
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">{{ comment.user.firstname ~ " " ~ comment.user.lastname}}</h5>
-							<p class="card-text">{{ comment.content }}</p>
+							<div class="d-flex align-items-center">
+
+								{% if comment.user.profilPictures is not empty %}
+									<img src="{{ asset('images/uploads/' ~ comment.user.profilPictures.last.name) }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+								{% else %}
+									<img src="{{ asset('images/default-profil-picture.webp') }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+								{% endif %}
+								<h5 class="card-title mx-3">{{ comment.user.firstname ~ " " ~ comment.user.lastname}}</h5>
+							</div>
+							<p class="card-text mt-3">{{ comment.content }}</p>
 							<p class="card-text">
 								<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
 							</p>
@@ -72,4 +97,60 @@
 				{% endfor %}
 			</div>
 		</div>
+
+  </div>
 	{% endblock %}
+
+  {% block javascripts %}
+    {{ parent() }}
+    <script>
+      {# carrousel images #}
+      let currentIndexImg = 0; // Index de départ actuel
+      const displayCountImg = 3; // Nombre d'images à afficher à la fois
+
+      function moveSlideImg(step) {
+        const slides = document.querySelectorAll('.carousel-images .col-4');
+        const totalImages = slides.length;
+
+        currentIndexImg += step;
+
+        if (currentIndexImg >= totalImages - displayCountImg + 1) {
+          currentIndexImg = 0;
+        } else if (currentIndexImg < 0) {
+          currentIndexImg = totalImages - displayCountImg;
+        }
+
+        slides.forEach((slide, index) => {
+          slide.style.display = (index >= currentIndexImg && index < currentIndexImg + displayCountImg) ? 'flex' : 'none';
+        });
+      }
+
+      {# carrousel videos #}
+      let currentIndexVideo = 0; // Index de départ actuel
+      const displayCountVideo = 3; // Nombre de vidéos à afficher à la fois
+
+      function moveSlideVideo(step) {
+        const slides = document.querySelectorAll('.carousel-videos .col-6');
+        const totalVideos = slides.length;
+
+        currentIndexVideo += step;
+
+        if (currentIndexVideo >= totalVideos - displayCountVideo + 1) {
+          currentIndexVideo = 0;
+        } else if (currentIndexVideo < 0) {
+          currentIndexVideo = totalVideos - displayCountVideo;
+        }
+
+        slides.forEach((slide, index) => {
+          slide.style.display = (index >= currentIndexVideo && index < currentIndexVideo + displayCountVideo) ? 'flex' : 'none';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function(e) {
+        e.preventDefault();
+        blabla();
+        document.querySelector('.prev').addEventListener('click', () => moveSlide(-1));
+        document.querySelector('.next').addEventListener('click', () => moveSlide(1));
+      });
+    </script>
+  {% endblock %}

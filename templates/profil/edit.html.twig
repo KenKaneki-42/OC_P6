@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer le Profile
+{% endblock %}
+{% block body %}
+	<section class="container mt-3">
+
+		<div class="profile-pictures">
+			<h2>Images de Profil Actuel</h2>
+			<div class="d-flex flex-wrap">
+				{# {% if user.profilPictures is not empty %}
+					{% for picture in user.profilPictures %}
+						<div
+							class="p-2">
+							<img src="{{ asset('images/uploads/' ~ picture.name) }}" alt="Image de profil" class="rounded-circle img-fluid large-profile-picture">
+						</div>
+					{% endfor %} #}
+        {% if user.profilPictures|length > 0 %}
+          <div
+							class="p-2">
+							<img src="{{ asset('images/uploads/' ~ user.profilPictures.last.name) }}" alt="Image de profil" class="rounded-circle img-fluid large-profile-picture">
+						</div>
+				{% else %}
+					<p>Aucune image de profil actuellement.</p>
+				{% endif %}
+			</div>
+		</div>
+
+		<h1>Editer le Profile</h1>
+		{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+
+
+	</section>
+{% endblock %}

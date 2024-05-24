@@ -49,8 +49,7 @@ class TrickController extends AbstractController
       $trick->setSlug(strtolower($slug));
       $trick->setUser($this->getUser());
       $trick->setDescription($form->getData()->getDescription());
-      // createdAt et UpdatedAt est déjà init dans le construct de l'entité
-      $fileUploader->uploadImages($trick);
+      $fileUploader->uploadFiles($trick);
       $fileUploader->uploadVideos($trick);
       $trick->setTrickCategory($form->getData()->getTrickCategory());
       $trickRepository->add($trick, true);
@@ -90,6 +89,7 @@ class TrickController extends AbstractController
 
   #[Route('/edit/{slug}', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED')]
+  #[IsGranted('', subject: 'trick')]
   public function edit(Request $request, Trick $trick, TrickRepository $trickRepository, FileUploader $fileUploader): Response
   {
 
@@ -105,7 +105,7 @@ class TrickController extends AbstractController
       $trick->setSlug(strtolower($slug));
       $trick->setUser($this->getUser());
       $trick->setDescription($form->getData()->getDescription());
-      $fileUploader->uploadImages($trick);
+      $fileUploader->uploadFiles($trick);
       $fileUploader->uploadVideos($trick);
       $trick->setTrickCategory($form->getData()->getTrickCategory());
       $trickRepository->add($trick, true);
@@ -120,8 +120,9 @@ class TrickController extends AbstractController
     ]);
   }
 
-  #[Route('/{id}', name: 'app_trick_delete', methods: ['POST'])]
+  #[Route('/delete/{id}', name: 'app_trick_delete', methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED')]
+  #[IsGranted('', subject: 'trick')]
   public function delete(Request $request, Trick $trick, TrickRepository $trickRepository): Response
   {
     $token = $request->request->get('_token');

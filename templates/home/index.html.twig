@@ -8,71 +8,88 @@
 	<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 {% endblock %}
 
-
 {% block body %}
 	<section class="hero-section">
 		<div class="hero-background">
-			{# <video autoplay loop muted class="hero-video">
-				<source src="{{ asset('assets/videos/hero-video.mp4') }}" type="video/mp4">
-			</video> #}
-      <img src="{{ asset('images/default.png') }}" alt="Snowboard" class="hero-image">
+			<img src="{{ asset('images/default.png') }}" alt="Snowboard" class="hero-image">
 		</div>
 		<div class="hero-content">
 			<h1>Rejoignez la communauté ultime des snowboarders</h1>
 			<p>Découvrez, partagez et maîtrisez les meilleurs tricks de snowboard</p>
 			<div class="hero-cta">
-				<a href="#join" class="btn btn-primary">Rejoignez-nous maintenant</a>
 				<a href="#discover" class="btn btn-secondary">Découvrez les tricks</a>
 			</div>
 		</div>
-    <div class="anchor-bottom-right">
-      <a href="#tricks"><i class="fa-solid fa-arrow-down"></i></a>
-    </div>
+		<div class="anchor-bottom-right">
+			<a href="#tricks">
+				<i class="fa-solid fa-arrow-down"></i>
+			</a>
+		</div>
 	</section>
-
 
 	<section class="d-flex flex-column align-center" id="tricks">
 		{% if tricks is not empty %}
-			<h2 id="discover" class="text-center my-5">Découvrez les tricks</h2>
+			<h2 id="discover" class="text-center my-4">Découvrez les tricks</h2>
 
 			<div class="text-center">
 				<a href="{{ path('app_trick_new') }}" class="btn btn-primary">Ajouter un trick</a>
 			</div>
-      {#  tricks list#}
-      <section class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
-          {% for trick in tricks %}
-            <div class="col">
-              <div class="card h-100">
-                {% if trick.images|length > 0 %}
-                  {% set firstImage = trick.images|first %}
-                  {% if firstImage.description != "Image description" %}
-                    <img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
-                  {% else %}
-                    <img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
-                  {% endif %}
-                {% else %}
-                  <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
-                {% endif %}
-                <div class="card-body">
-                  <h5 class="card-title">{{ trick.name }}</h5>
-                  <p class="card-text">{{ trick.description }}</p>
-                  <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}" class="btn btn-primary">Voir le trick</a>
-                  {% if app.user %}
-                    {% if app.user.id == trick.user.id %}
-                      <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}" class="btn btn-secondary">Modifier</a>
-                      <a href="{{path('app_trick_delete', {'id': trick.id}) }}" class="btn btn-secondary">Supprimer</a>
-                    {% endif %}
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      <section>
+			{#  tricks list#}
+			<section class="container mt-3" id="tricksContainer">
+				{% include 'trick/_list.html.twig' %}
+			</section>
 		{% else %}
-			<p class="text-center">Aucun trick n'a encore été ajouté</p>
+					<p class="text-center">Aucun trick n'a encore été ajouté</p>
 		{% endif %}
-	</section>
 
+	</section>
+  {% if hasMore %}
+    <div class="text-center my-3">
+      <button id="loadMoreBtn" class="btn btn-primary">Charger Plus</button>
+    </div>
+	{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{# loadMore feature #}
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    loadMoreBtn.addEventListener('click', function() {
+      var container = document.getElementById('tricksContainer');
+      if (!container) {
+        console.error('Container not found');
+        return;
+      }
+      var offset = container.querySelectorAll('.col').length;
+
+      fetch('{{ path('app_index') }}?offset=' + offset, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (!data.html) {
+          console.error('No HTML content in response');
+          return;
+        }
+        container.insertAdjacentHTML('beforeend', data.html);
+        if (!data.hasMore) {
+          loadMoreBtn.remove(); // Utilisation de la référence stable au lieu de event.currentTarget
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    });
+  });
+
+  </script>
 {% endblock %}

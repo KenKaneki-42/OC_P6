@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
+    <form method="post" class="container mt-3 py-3">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -14,10 +14,10 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h2>Connexion</h2>
         <label for="username">Email</label>
         <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
+        <label for="password">Mot de passe</label>
         <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
 
         <input type="hidden" name="_csrf_token"
@@ -36,10 +36,10 @@
         #}
 
         <button class="btn btn-lg btn-primary mt-3" type="submit">
-            Sign in
+            Connexion
         </button>
-        <a href="{{ path('app_register') }}" class="btn btn-secondary mt-3">Register</a>
-        <a href="{{ path('app_forgotten_password') }}" class="btn btn-secondary mt-3">Forgot your password?</a>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary mt-3">Inscription</a>
+        <a href="{{ path('app_forgotten_password') }}" class="btn btn-secondary mt-3">Mot de passe oublié</a>
 
     </form>
 {% endblock %}
