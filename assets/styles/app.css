@@ -15,8 +15,8 @@ footer h5 {
 .category {
   background-color: var(--secondary-color);
   color: var(--dark-color);
+  width: -moz-fit-content;
   width: fit-content;
-  /* width: -moz-fit-content; */
   padding: 0.25rem 0.75rem;
   border-radius: 25px;
 }
@@ -51,7 +51,6 @@ padding-top: 20vh;
 
 .hero-container {
 width: 100%;
-/* margin-top: 10px; */
 padding: 32px, 0, 32px, 0;
 min-height: 60vh;
 }
@@ -70,30 +69,12 @@ min-height: 60vh;
 .btn-primary {
 background-color: #007bff;
 color: white;
-/* autres styles */
 }
 
 .btn-secondary {
 background-color: #6c757d;
 color: white;
-/* autres styles */
 }
-
-/* .container-tricks{
-max-width: 1200px;
-width: 100%;
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 2rem;
-} */
-
-/* .card-trick {
-background-color: #fff;
-border-radius: 10px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-padding: 1rem;
-max-width: 200px;
-} */
 
 .card img {
   max-height: 50vh;
@@ -124,7 +105,6 @@ max-width: 200px;
 }
 
 :root {
-  /* Couleurs principales */
   --primary-color: #1BA098;
   --secondary-color: #c6ae93;
   --success-color: #28a745;
@@ -134,17 +114,11 @@ max-width: 200px;
   --light-color: #DEB992;
   --dark-color: #6F6866;
   --bright-color: #F06C9B;
-
-  /* Autres couleurs */
   --text-color: #1BA098;
   --background-color: #051622;
-
-  /* */
-  /* --bs-nav-link-hover-color:#DEB992; */
   --nav-link-hover-color: #DEB992;
 }
 
-/* Utilisation des variables pour personnaliser Bootstrap */
 .btn-primary {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
@@ -231,7 +205,6 @@ max-width: 200px;
 
 .container-carousel {
   position: relative;
-  width: 50%;
   overflow: hidden;
 }
 
@@ -239,13 +212,12 @@ max-width: 200px;
   display: flex;
   transition: transform 0.5s ease;
   height: 100%;
-  /* width: 50%; */
 }
 
 #carousel-images img {
   width: 33.3333%;
-  flex: 0 0 33.3333%; /* Empêche le rétrécissement ou l'agrandissement */
-  box-sizing: border-box; /* Inclut padding et border dans la largeur */
+  flex: 0 0 33.3333%; /* to avoid width issue */
+  box-sizing: border-box;  /* to avoid width issue */
   padding: 10px;
 }
 
@@ -293,7 +265,7 @@ max-width: 200px;
 }
 
 .card img{
-  height: 120px;
+  /* height: 120px; */
   object-fit: cover;
 }
 
@@ -301,13 +273,17 @@ max-width: 200px;
   min-height: 280px !important;
 }
 
-.containerMedia {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 .carousel-images .col-4 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.navbar-toggler-icon {
+  background-color: transparent;
+}
+
+#showMediaBtn {
+  width: -moz-fit-content;
+  width: fit-content;
 }

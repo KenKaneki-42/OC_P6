@@ -28,9 +28,6 @@ class HomeController extends AbstractController
     $tricks = $this->em->getRepository(Trick::class)->findBy([], null, $limit, $offset);
     $totalTricks = $this->em->getRepository(Trick::class)->count([]);
     $hasMore = ($offset + $limit) < $totalTricks;
-    // dump($hasMore);
-    // dump('offset: ', $offset);
-    // dump('limit: ', $limit);
 
     if ($request->isXmlHttpRequest()) {
       $html = $this->renderView('trick/_list.html.twig', [
@@ -39,7 +36,6 @@ class HomeController extends AbstractController
       return new JsonResponse(['html' => $html, 'hasMore' => $hasMore]);
     } else {
       error_log('Not an AJAX request');
-
     }
 
     return $this->render('home/index.html.twig', [

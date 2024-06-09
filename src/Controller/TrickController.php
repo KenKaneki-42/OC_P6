@@ -100,31 +100,12 @@ class TrickController extends AbstractController
 
     return $this->render('trick/show.html.twig', [
       'trick' => $trick,
-      // here we passe a pack of comments ( we avoid to use trick.comments because we don't want to display all of them at first)
       'comments' => $comments,
       'hasMore' => $hasMore,
       'form' => $form->createView(),
       'totalComments' => $totalComments,
     ]);
   }
-
-  // #[Route('/trick/{slug}/comments/{offset<\d+>?0}', name: 'app_trick_comments_show_list', methods: ['GET'])]
-  // public function addListComments(Trick $trick, CommentRepository $commentRepository, Request $request)
-  // {
-  //   $offset = $request->query->getInt('offset', 0);
-  //   $limit = 10; // Nombre de commentaires à afficher par page
-
-  //   $comments = $commentRepository->findByTrick($trick, $limit, $offset);
-  //   $totalComments = $commentRepository->countByTrick($trick);
-
-  //   $hasMore = ($offset + $limit) < $totalComments;
-
-  //   return $this->render('trick/comments.html.twig', [
-  //     'trick' => $trick,
-  //     'comments' => $comments,
-  //     'hasMore' => $hasMore,
-  //   ]);
-  // }
 
   #[Route('/edit/{slug}', name: 'app_trick_edit', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED')]

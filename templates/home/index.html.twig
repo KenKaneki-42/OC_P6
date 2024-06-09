@@ -34,9 +34,13 @@
 			<div class="text-center">
 				<a href="{{ path('app_trick_new') }}" class="btn btn-primary">Ajouter un trick</a>
 			</div>
-			{#  tricks list#}
-			<section class="container mt-3" id="tricksContainer">
-				{% include 'trick/_list.html.twig' %}
+			{#  tricks list #}
+			<section class="container mt-3">
+        <article class="container">
+          <div id="tricksContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 mt-3">
+          {% include 'trick/_list.html.twig' %}
+          </div>
+        <article>
 			</section>
 		{% else %}
 					<p class="text-center">Aucun trick n'a encore été ajouté</p>
@@ -82,7 +86,7 @@
         }
         container.insertAdjacentHTML('beforeend', data.html);
         if (!data.hasMore) {
-          loadMoreBtn.remove(); // Utilisation de la référence stable au lieu de event.currentTarget
+          loadMoreBtn.remove();
         }
       })
       .catch(error => {
