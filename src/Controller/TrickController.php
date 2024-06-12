@@ -23,15 +23,6 @@ use App\Repository\TrickRepository;
 #[Route('/trick')]
 class TrickController extends AbstractController
 {
-  #[Route('', name: 'app_trick_index')]
-  public function index(TrickRepository $trickRepository): Response
-  {
-
-    return $this->render('trick/index.html.twig', [
-      'controller_name' => 'TrickController',
-      'tricks' => $trickRepository->findAll(),
-    ]);
-  }
 
   #[Route('/new', name: 'app_trick_new', methods: ['GET', 'POST'])]
   #[IsGranted('IS_AUTHENTICATED')]
@@ -57,7 +48,7 @@ class TrickController extends AbstractController
 
       $this->addFlash('success', 'La figure a bien été créée');
 
-      return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+      return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
     }
 
     return $this->render('trick/new.html.twig', [
@@ -71,7 +62,7 @@ class TrickController extends AbstractController
   {
     $limit = 5;
     $offset = (int) $request->query->get('offset', 0);
-    
+
     $comment = new Comment();
     $form = $this->createForm(CommentFormType::class, $comment);
     $form->handleRequest($request);
@@ -82,7 +73,7 @@ class TrickController extends AbstractController
       $comment->setUser($user);
       $commentRepository->add($comment, true);
 
-      return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()]);
+      return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
     }
 
     $comments = $commentRepository->findBy(['trick' => $trick], null, $limit, $offset);
@@ -132,7 +123,7 @@ class TrickController extends AbstractController
 
       $this->addFlash('success', 'La figure a bien été modifiée');
 
-      return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+      return $this->redirectToRoute('app_trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
     }
     return $this->render('trick/edit.html.twig', [
       'trick' => $trick,
@@ -149,10 +140,11 @@ class TrickController extends AbstractController
 
     if ($this->isCsrfTokenValid(sprintf('delete%s', $trick->getId()), $token)) {
       $trickRepository->remove($trick, true);
+      $this->addFlash('success', 'La figure a bien été supprimée');
     } else {
       $this->addFlash('danger', 'La figure n\'a pas pu être supprimée');
     }
 
-    return $this->redirectToRoute('app_trick_index', [], Response::HTTP_SEE_OTHER);
+    return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
   }
 }

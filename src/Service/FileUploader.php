@@ -35,49 +35,17 @@ class FileUploader
     return $fileName;
   }
 
-  // public function uploadImages(Trick $trick): void
-  // {
-  //   foreach ($trick->getImages() as $image) {
-  //     if ($image->getFile() !== null) {
-  //       $image->setName($this->upload($image->getFile()));
-  //       $image->setUrl($this->getTargetDirectory() . '/' . $image->getName());
-  //       $image->setDescription($trick->getName());
-  //       $image->setSource('upload');
-  //       $image->setExternalId('none');
-  //     } elseif ($image->getName() === null && $image->getFile() === null) {
-  //       $trick->removeImage($image);
-  //     }
-  //   }
-  // }
-
-  // public function uploadProfilPicture(User $user): void
-  // {
-  //   foreach ($user->getProfilPictures() as $profilePicture) {
-  //     if ($profilePicture->getFile() !== null) {
-  //       $profilePicture->setName($this->upload($profilePicture->getFile()));
-  //       $profilePicture->setUrl($this->getTargetDirectory() . '/' . $profilePicture->getName());
-  //       $profilePicture->setDescription($profilePicture->getName());
-  //       $profilePicture->setSource('upload');
-  //       $profilePicture->setExternalId('none');
-  //     } elseif ($profilePicture->getName() === null && $profilePicture->getFile() === null) {
-  //       $user->removeProfilPicture($profilePicture);
-  //     }
-  //   }
-  // }
-
   public function uploadProfilPicture(ProfilPicture $profilPicture): void
-{
+  {
     if ($profilPicture->getFile() !== null) {
-      // dd('dans le if');
-        $fileName = $this->upload($profilPicture->getFile()); // Utiliser upload pour gérer le fichier
-        $profilPicture->setName($fileName);
-        $profilPicture->setUrl($this->getTargetDirectory() . '/' . $fileName);
-        $profilPicture->setDescription($fileName); // Utiliser un champ existant de l'utilisateur
-        $profilPicture->setSource('upload');
-        $profilPicture->setExternalId('none');
+      $fileName = $this->upload($profilPicture->getFile()); // Use upload to handle file
+      $profilPicture->setName($fileName);
+      $profilPicture->setUrl($this->getTargetDirectory() . '/' . $fileName);
+      $profilPicture->setDescription($fileName);
+      $profilPicture->setSource('upload');
+      $profilPicture->setExternalId('none');
     }
-}
-
+  }
 
   public function uploadFiles(Trick|User $entity): void
   {
@@ -107,7 +75,6 @@ class FileUploader
   {
     return $this->targetDirectory;
   }
-
 
   public function uploadVideos(Trick $trick): void
   {

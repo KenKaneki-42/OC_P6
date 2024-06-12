@@ -7,14 +7,13 @@
 
 {% block stylesheets %}
   {{ parent() }}
-  {# <link rel="stylesheet" href="{{ asset('css/profil.css') }}"> <!-- Si vous avez des styles spécifiques --> #}
 {% endblock %}
 
 {% block body %}
-<section class="container mt-4">
+<section class="container margin-12vh">
   <div class="row">
     <!-- Sidebar / Profil Picture -->
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 text-center mb-3">
       {% if user.profilPictures|length > 0 %}
 			{% set firstImage = user.profilPictures.last %}
 			{% if firstImage.description != "Image description" %}
@@ -35,12 +34,6 @@
       <p>Dernière mise à jour: {{ user.updatedAt | date('d/m/Y') }}</p>
       <p>Compte activé: {{ user.isEnabled ? 'Oui' : 'Non' }}</p>
       <p>Compte vérifié: {{ user.isVerified ? 'Oui' : 'Non' }}</p>
-
-      {# {{ form_start(form) }}
-      {{ form_widget(form) }}
-      <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
-      {{ form_end(form) }} #}
-
       <a href='/profil/edit' class="btn btn-primary"> Editer mon profil</a>
     </div>
   </div>

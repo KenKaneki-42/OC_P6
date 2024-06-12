@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-	<section class="hero-section">
+	<section id="hero-section" class="hero-section">
 		<div class="hero-background">
 			<img src="{{ asset('images/default.png') }}" alt="Snowboard" class="hero-image">
 		</div>
@@ -45,13 +45,18 @@
 		{% else %}
 					<p class="text-center">Aucun trick n'a encore été ajouté</p>
 		{% endif %}
-
-	</section>
-  {% if hasMore %}
-    <div class="text-center my-3">
+    {% if hasMore %}
+    <div class="text-center mt-3">
       <button id="loadMoreBtn" class="btn btn-primary">Charger Plus</button>
     </div>
 	{% endif %}
+    <div class="anchor-bottom-right">
+			<a href="#hero-section">
+				<i class="fa-solid fa-arrow-up"></i>
+			</a>
+		</div>
+	</section>
+
 {% endblock %}
 
 {% block javascripts %}

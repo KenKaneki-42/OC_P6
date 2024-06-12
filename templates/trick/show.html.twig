@@ -7,7 +7,7 @@
 {% block body %}
 	<div class="card mx-5">
 		{# add icone edit and delete if the user of the trick is the creator #}
-    <div class="background-image-container">
+    <div class="background-image-container-show">
       {% if app.user == trick.user %}
         <div class="d-flex justify-content-center crud-icons">
           <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -31,7 +31,7 @@
 				<h5 class="card-title">{{ trick.name }}</h5>
 				<div class="category">{{trick.trickCategory.name}}</div>
 			</div>
-			<p class="card-text">{{ trick.description }}</p>
+			<p class="card-text">{{ trick.description|nl2br }}</p>
 		</div>
 
     <div class="text-center">
@@ -41,11 +41,11 @@
     <div id="mediaContainer" class="d-none d-lg-block">
       <div class="container-fluid">
         <div class="row">
-          <div class="container-carousel col-lg-6 col-md-12">
+          <div class="container-carousel col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <div id="carousel-images" class="carousel-images">
               {% for image in trick.images %}
-                <div class="col-4">
-                  <img src="{{ asset('images/uploads/' ~ image.name) }}" class="test" alt="{{ image.description }}">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 item-image justify-content-center">
+                  <img src="{{ asset('images/uploads/' ~ image.name) }}" class="" alt="{{ image.description }}">
                 </div>
               {% endfor %}
             </div>
@@ -55,7 +55,7 @@
           <div class="container-carousel col-lg-6 col-md-12">
             <div id="carousel-videos" class="carousel-videos">
               {% for video in trick.videos %}
-                <div class="col-6">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 item-video justify-content-center">
                   <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
                   </div>
@@ -140,33 +140,37 @@
       document.getElementById('mediaContainer').classList.remove('d-none');
     });
 
-    {# carrousel images #}
+    {# initialize var for responsive carousel #}
+    let currentIndexVideo = 0;
     let currentIndexImg = 0;
-    const displayCountImg = 3;
-
-    function moveSlideImg(step) {
-      const slides = document.querySelectorAll('.carousel-images .col-4');
-      const totalImages = slides.length;
-
-      currentIndexImg += step;
-
-      if (currentIndexImg >= totalImages - displayCountImg + 1) {
-        currentIndexImg = 0;
-      } else if (currentIndexImg < 0) {
-        currentIndexImg = totalImages - displayCountImg;
-      }
-
-      slides.forEach((slide, index) => {
-        slide.style.display = (index >= currentIndexImg && index < currentIndexImg + displayCountImg) ? 'flex' : 'none';
-      });
+    if (window.innerWidth < 992) {
+      var displayCountImg = 1;
+      var displayCountVideo = 1;
+    } else {
+      var displayCountImg = 3;
+      var displayCountVideo = 2;
     }
 
-    {# carrousel videos #}
-    let currentIndexVideo = 0;
-    const displayCountVideo = 3;
+    {# carrousel images #}
+    function moveSlideImg(step) {
+          const slides = document.querySelectorAll('.carousel-images .item-image');
+          const totalImages = slides.length;
+          currentIndexImg += step;
 
+          if (currentIndexImg >= totalImages - displayCountImg + 1) {
+            currentIndexImg = 0;
+          } else if (currentIndexImg < 0) {
+            currentIndexImg = totalImages - displayCountImg;
+          }
+
+          slides.forEach((slide, index) => {
+            slide.style.display = (index >= currentIndexImg && index < currentIndexImg + displayCountImg) ? 'flex' : 'none';
+            });
+        }
+
+    {# carrousel videos #}
     function moveSlideVideo(step) {
-      const slides = document.querySelectorAll('.carousel-videos .col-6');
+      const slides = document.querySelectorAll('.carousel-videos .item-video');
       const totalVideos = slides.length;
 
       currentIndexVideo += step;
@@ -182,11 +186,5 @@
       });
     }
 
-    {# arrow carrousel flow #}
-    document.addEventListener('DOMContentLoaded', function(e) {
-      e.preventDefault();
-      document.querySelector('.prev').addEventListener('click', () => moveSlide(-1));
-      document.querySelector('.next').addEventListener('click', () => moveSlide(1));
-    });
     </script>
   {% endblock %}

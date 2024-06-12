@@ -17,7 +17,7 @@
 
 				<div class="card-body">
 					<h5 class="card-title">{{ trick.name }}</h5>
-					<p class="card-text">{{ trick.description|length > 100 ? trick.description|slice(0, 100) ~ '...' : trick.description }}</p>
+					<p class="card-text">{{ trick.description|length > 60 ? trick.description|slice(0, 60) ~ '...' : trick.description }}</p>
 				</div>
 			</a>
 			<div class="crud-icons-index">
