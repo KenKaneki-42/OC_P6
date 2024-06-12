@@ -6,6 +6,8 @@ use App\Entity\Trick;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Entity\User;
+use App\Entity\ProfilPicture;
 
 class FileUploader
 {
@@ -33,17 +35,38 @@ class FileUploader
     return $fileName;
   }
 
-  public function uploadImages(Trick $trick): void
+  public function uploadProfilPicture(ProfilPicture $profilPicture): void
   {
-    foreach ($trick->getImages() as $image) {
-      if ($image->getFile() !== null) {
-        $image->setName($this->upload($image->getFile()));
-        $image->setUrl($this->getTargetDirectory() . '/' . $image->getName());
-        $image->setDescription($image->getDescription());
-        $image->setSource('upload');
-        $image->setExternalId('none');
-      } elseif ($image->getName() === null && $image->getFile() === null) {
-        $trick->removeImage($image);
+    if ($profilPicture->getFile() !== null) {
+      $fileName = $this->upload($profilPicture->getFile()); // Use upload to handle file
+      $profilPicture->setName($fileName);
+      $profilPicture->setUrl($this->getTargetDirectory() . '/' . $fileName);
+      $profilPicture->setDescription($fileName);
+      $profilPicture->setSource('upload');
+      $profilPicture->setExternalId('none');
+    }
+  }
+
+  public function uploadFiles(Trick|User $entity): void
+  {
+
+    if ($entity instanceof Trick) {
+      $files = $entity->getImages();
+    } elseif ($entity instanceof User) {
+      $files = $entity->getProfilPictures();
+    } else {
+      throw new \Exception('The entity must be an instance of Trick or User');
+    }
+    foreach ($files as $file) {
+
+      if ($file->getFile() !== null) {
+        $file->setName($this->upload($file->getFile()));
+        $file->setUrl($this->getTargetDirectory() . '/' . $file->getName());
+        $file->setDescription($entity->getName());
+        $file->setSource('upload');
+        $file->setExternalId('none');
+      } elseif ($file->getName() === null && $file->getFile() === null) {
+        $entity->removeFileMedia($file);
       }
     }
   }
@@ -52,7 +75,6 @@ class FileUploader
   {
     return $this->targetDirectory;
   }
-
 
   public function uploadVideos(Trick $trick): void
   {
@@ -65,8 +87,8 @@ class FileUploader
         $video->setexternalId($videoId['v']);
         $video->setSource($check);
         $video->setUrl($video->getUrl());
-        $video->setName($video->getName());
-        $video->setDescription($video->getDescription());
+        $video->setName($trick->getName());
+        $video->setDescription($trick->getName());
         $trick->addVideo($video);
       } elseif ($video->getName() === null || $video->getExternalId() === null) {
         $trick->removeVideo($video);

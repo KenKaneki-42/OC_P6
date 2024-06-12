@@ -1,0 +1,20 @@
+{% for comment in comments %}
+  <div class="comment mb-3">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+
+        {% if comment.user.profilPictures is not empty %}
+          <img src="{{ asset('images/uploads/' ~ comment.user.profilPictures.last.name) }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+        {% else %}
+          <img src="{{ asset('images/default-profil-picture.webp') }}" alt="Image de profil" class="rounded-circle img-fluid small-profile-picture">
+        {% endif %}
+        <h5 class="card-title mx-3">{{ comment.user.firstname ~ " " ~ comment.user.lastname}}</h5>
+      </div>
+      <p class="card-text mt-3">{{ comment.content|nl2br }}</p>
+      <p class="card-text">
+        <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
+      </p>
+    </div>
+  </div>
+  <hr/>
+{% endfor %}

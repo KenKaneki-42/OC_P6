@@ -1,0 +1,41 @@
+
+{#  #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de l'utilisateur{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<section class="container margin-12vh">
+  <div class="row">
+    <!-- Sidebar / Profil Picture -->
+    <div class="col-md-4 text-center mb-3">
+      {% if user.profilPictures|length > 0 %}
+			{% set firstImage = user.profilPictures.last %}
+			{% if firstImage.description != "Image description" %}
+				<img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
+			{% else %}
+				<img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
+			{% endif %}
+		{% else %}
+			<img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
+		{% endif %}
+    </div>
+
+    <!-- Profil Details -->
+    <div class="col-md-8">
+      <h2>Profil de {{ user.firstname }} {{ user.lastname }}</h2>
+      <p>Email: {{ user.email }}</p>
+      <p>Date de création: {{ user.createdAt | date('d/m/Y') }}</p>
+      <p>Dernière mise à jour: {{ user.updatedAt | date('d/m/Y') }}</p>
+      <p>Compte activé: {{ user.isEnabled ? 'Oui' : 'Non' }}</p>
+      <p>Compte vérifié: {{ user.isVerified ? 'Oui' : 'Non' }}</p>
+      <a href='/profil/edit' class="btn btn-primary"> Editer mon profil</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

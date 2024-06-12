@@ -4,12 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<section class="container">
+	<section class="container margin-12vh">
 		<h1>Créer un nouveau Trick</h1>
 
 		{{ include('trick/_form.html.twig') }}
 
-		<a href="{{ path('app_trick_index') }}">retour à la liste des tricks</a>
 	</section>
 {% endblock %}
-

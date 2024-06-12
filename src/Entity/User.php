@@ -8,12 +8,12 @@ use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(type: Types::STRING, length: 255)]
   #[Assert\NotBlank(groups: ['password'])]
   #[Assert\Length(min: 8)]
-  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.", groups: ['password'])]
+  #[Assert\Regex(pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", message: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.", groups: ['password'])]
   private ?string $password = null;
 
   private ?string $plainPassword = null;
@@ -84,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
   private bool $isVerified = false;
 
+  private ?File $file = null;
   public function __construct()
   {
     $this->tricks = new ArrayCollection();
@@ -346,7 +347,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this;
   }
 
-  public function removeProfilPicture(ProfilPicture $profilPicture): static
+  public function removeFileMedia(ProfilPicture $profilPicture): static
   {
     if ($this->profilPictures->removeElement($profilPicture)) {
       // set the owning side to null (unless already changed)
@@ -360,13 +361,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
   public function isVerified(): bool
   {
-      return $this->isVerified;
+    return $this->isVerified;
   }
 
   public function setIsVerified(bool $isVerified): static
   {
-      $this->isVerified = $isVerified;
+    $this->isVerified = $isVerified;
 
-      return $this;
+    return $this;
+  }
+
+  public function getFile(): ?File
+  {
+    return $this->file;
+  }
+
+  public function setFile(?File $file): static
+  {
+    $this->file = $file;
+
+    return $this;
   }
 }

@@ -1,86 +1,190 @@
 {% extends 'base.html.twig' %}
 {% block title %}
 	{{ trick.name }}
-	- Site Communautaire SnowTricks
+  Site Communautaire SnowTricks
 {% endblock %}
 
 {% block body %}
-	<div class="card">
-		{% if trick.images|length > 0 %}
-			{% set firstImage = trick.images|first %}
-			{% if firstImage.description != "Image description" %}
-				<img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
-			{% else %}
-				<img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
-			{% endif %}
-		{% else %}
-			<img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
-		{% endif %}
+	<div class="card mx-5">
+		{# add icone edit and delete if the user of the trick is the creator #}
+    <div class="background-image-container-show">
+      {% if app.user == trick.user %}
+        <div class="d-flex justify-content-center crud-icons">
+          <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+          {{ include('trick/_delete_form.html.twig') }}
+        </div>
+      {% endif %}
+      {% if trick.images|length > 0 %}
+        {% set firstImage = trick.images|first %}
+        {% if firstImage.description != "Image description" %}
+          <img src="{{ asset('images/uploads/' ~ firstImage.name) }}" alt="{{ firstImage.description }}" class="img-thumbnail">
+        {% else %}
+          <img src="{{ firstImage.url }}" class="card-img-top img-thumbnail" alt="{{ trick.name }}">
+        {% endif %}
+      {% else %}
+        <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
+      {% endif %}
+    </div>
+
 		<div class="card-body">
 			<div class="d-flex justify-content-between">
 				<h5 class="card-title">{{ trick.name }}</h5>
 				<div class="category">{{trick.trickCategory.name}}</div>
 			</div>
-
-			<p class="card-text">{{ trick.description }}</p>
-			{# {{ dump(trick.trickCategory.name)}} #}
-		{# <p class="category"> Category: {{trick.trickCategory.name}}</p> #}
-
-			{# <p> Catégorie : {{ trick.category.name }}</p> #}
-			{# <a href="{{ path('trick_index') }}" class="btn btn-primary">Retour à la liste des tricks</a> #}
-
+			<p class="card-text">{{ trick.description|nl2br }}</p>
 		</div>
 
-		<div>
-			<h2>Images</h2>
-			<div
-				class="row">
-				{# {{ dump(trick.images)}} #}
-				{% for image in trick.images %}
-					<div class="col-4">
-						<img src="{{ asset('images/uploads/' ~ image.name) }}" class="img-thumbnail" alt="{{ image.description }}">
-					</div>
-				{% endfor %}
-			</div>
-		</div>
+    <div class="text-center">
+      <button id="showMediaBtn" class="btn btn-secondary btn-sm d-lg-none">Voir les médias</button>
+    </div>
 
-		<div>
-			<h2>Vidéos</h2>
-			<div class="row">
-				{% for video in trick.videos %}
-					<div class="col-4">
-						<div
-							class="embed-responsive embed-responsive-16by9">
-							{# {{dump(video.externalId)}} #}
+    <div id="mediaContainer" class="d-none d-lg-block">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="container-carousel col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div id="carousel-images" class="carousel-images">
+              {% for image in trick.images %}
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 item-image justify-content-center">
+                  <img src="{{ asset('images/uploads/' ~ image.name) }}" class="" alt="{{ image.description }}">
+                </div>
+              {% endfor %}
+            </div>
+            <button class="prev" onclick="moveSlideImg(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlideImg(1)">&#10095;</button>
+          </div>
+          <div class="container-carousel col-lg-6 col-md-12">
+            <div id="carousel-videos" class="carousel-videos">
+              {% for video in trick.videos %}
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 item-video justify-content-center">
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <button class="prev" onclick="moveSlideVideo(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlideVideo(1)">&#10095;</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
+    <section class="container mt-3">
+      <h2>Commentaires</h2>
+      {% if app.user %}
+        {{ include('comment/_form.html.twig', {'commentForm': form}) }}
+      {% else %}
+        <p>Vous devez être connecté pour poster un commentaire</p>
+      {% endif %}
+      <div id="containerComments">
+        {% if comments is not empty%}
+          {% include 'comment/_list.html.twig' %}
+        {% else %}
+          <p>Aucun commentaire n'a encore été ajouté</p>
+        {% endif %}
+      </div>
+      {% if hasMore %}
+        <div class="text-center my-3">
+          <button id="loadMoreBtn" class="btn btn-secondary">Charger Plus</button>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+	{% endblock %}
 
-							{# <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe> #}
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		</div>
+  {% block javascripts %}
+    {{ parent() }}
+    <script>
+    {# loadMore feature #}
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      loadMoreBtn.addEventListener('click', function() {
+        var container = document.getElementById('containerComments');
+        if (!container) {
+          console.error('Container not found');
+          return;
+        }
+        var offset = container.querySelectorAll('.comment').length;
+        console.log(container);
+        console.log(offset);
+        fetch('{{ path('app_trick_show', {'slug': trick.slug}) }}?offset=' + offset, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data.html) {
+            console.error('No HTML content in response');
+            return;
+          }
+          container.insertAdjacentHTML('beforeend', data.html);
+          if (!data.hasMore) {
+            loadMoreBtn.remove();
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+      });
+    });
 
-		{# <div>
-					<h2>Commentaires</h2>
-					{% if app.user %}
-						{{ render(controller('App\\Controller\\CommentController::new', { 'trick': trick.id })) }}
-					{% else %}
-						<p>Vous devez être connecté pour poster un commentaire</p>
-					{% endif %}
-					<div id="comments">
-						{% for comment in trick.comments %}
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">{{ comment.author.username }}</h5>
-									<p class="card-text">{{ comment.content }}</p>
-									<p class="card-text">
-										<small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
-									</p>
-								</div>
-							</div>
-						{% endfor %}
-					</div> #}
-	</div>
-{% endblock %}
+    {# display medias when it's a mobile view #}
+    document.getElementById('showMediaBtn').addEventListener('click', function() {
+      document.getElementById('showMediaBtn').style.display = 'none';
+      document.getElementById('mediaContainer').classList.remove('d-none');
+    });
+
+    {# initialize var for responsive carousel #}
+    let currentIndexVideo = 0;
+    let currentIndexImg = 0;
+    if (window.innerWidth < 992) {
+      var displayCountImg = 1;
+      var displayCountVideo = 1;
+    } else {
+      var displayCountImg = 3;
+      var displayCountVideo = 2;
+    }
+
+    {# carrousel images #}
+    function moveSlideImg(step) {
+          const slides = document.querySelectorAll('.carousel-images .item-image');
+          const totalImages = slides.length;
+          currentIndexImg += step;
+
+          if (currentIndexImg >= totalImages - displayCountImg + 1) {
+            currentIndexImg = 0;
+          } else if (currentIndexImg < 0) {
+            currentIndexImg = totalImages - displayCountImg;
+          }
+
+          slides.forEach((slide, index) => {
+            slide.style.display = (index >= currentIndexImg && index < currentIndexImg + displayCountImg) ? 'flex' : 'none';
+            });
+        }
+
+    {# carrousel videos #}
+    function moveSlideVideo(step) {
+      const slides = document.querySelectorAll('.carousel-videos .item-video');
+      const totalVideos = slides.length;
+
+      currentIndexVideo += step;
+
+      if (currentIndexVideo >= totalVideos - displayCountVideo + 1) {
+        currentIndexVideo = 0;
+      } else if (currentIndexVideo < 0) {
+        currentIndexVideo = totalVideos - displayCountVideo;
+      }
+
+      slides.forEach((slide, index) => {
+        slide.style.display = (index >= currentIndexVideo && index < currentIndexVideo + displayCountVideo) ? 'flex' : 'none';
+      });
+    }
+
+    </script>
+  {% endblock %}

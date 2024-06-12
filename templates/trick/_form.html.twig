@@ -48,14 +48,18 @@
     <div>
         {{ form_errors(form) }}
     </div>
-    <div>
-        {{ form_row(form.valider) }}
+    <div class='mt-3 text-end'>
+      {% if form.vars.value.id %}
+          {{ form_row(form.valider, {'label': 'Sauvegarder'}) }}
+      {% else %}
+          {{ form_row(form.valider, {'label': 'Créer'}) }}
+      {% endif %}
     </div>
 {{ form_end(form, {render_rest: false}) }}
 
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
     // Add an image
     const addButtonImage = document.querySelector('.btn-new[data-collection="#trick_images"]');
     let collectionHolderImages = document.querySelector('#trick_images');
@@ -79,13 +83,12 @@
         collectionHolderVideos.dataset.index = index + 1;
         collectionHolderVideos.insertAdjacentHTML('beforeend', newItem);
     });
-});
+  });
 
-// Utiliser la délégation d'événements pour gérer tous les boutons de suppression actuels et futurs
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('btn-remove')) {
-        event.target.closest('.input-media').remove();
-    }
-});
+  document.addEventListener('click', function(event) {
+      if (event.target.classList.contains('btn-remove')) {
+          event.target.closest('.input-media').remove();
+      }
+  });
 
-    </script>
+</script>
