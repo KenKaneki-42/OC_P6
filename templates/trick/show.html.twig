@@ -41,10 +41,10 @@
     <div id="mediaContainer" class="d-none d-lg-block">
       <div class="container-fluid">
         <div class="row">
-          <div class="container-carousel col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <div class="container-carousel col-lg-6 col-md-12 col-sm-12 col-12">
             <div id="carousel-images" class="carousel-images">
               {% for image in trick.images %}
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 item-image justify-content-center">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-12 item-image justify-content-center">
                   <img src="{{ asset('images/uploads/' ~ image.name) }}" class="" alt="{{ image.description }}">
                 </div>
               {% endfor %}
@@ -52,10 +52,10 @@
             <button class="prev" onclick="moveSlideImg(-1)">&#10094;</button>
             <button class="next" onclick="moveSlideImg(1)">&#10095;</button>
           </div>
-          <div class="container-carousel col-lg-6 col-md-12">
+          <div class="container-carousel col-lg-6 col-md-12 col-sm-12 col-12">
             <div id="carousel-videos" class="carousel-videos">
               {% for video in trick.videos %}
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 item-video justify-content-center">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12 item-video justify-content-center">
                   <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.externalId }}" allowfullscreen></iframe>
                   </div>
