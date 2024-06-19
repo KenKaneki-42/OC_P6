@@ -222,10 +222,14 @@ color: white;
 }
 
 #carousel-images img {
-  width: 33.3333%;
-  /* width: auto; */
-  /* flex: 0 0 33.3333%; */
+  width: 90%;
   box-sizing: border-box;
+}
+
+@media (max-width: 991px) {
+  #carousel-images img {
+    width: auto;
+  }
 }
 
 .prev, .next {
@@ -296,11 +300,7 @@ color: white;
   min-height: 280px !important;
 }
 
-.carousel-images .col-4 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .navbar-toggler-icon {
   background-color: transparent;
